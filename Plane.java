@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public abstract class Plane extends JPanel implements Runnable{
 	private JPanel plane;
-	private JFrame main;
+	protected JFrame main;
 	private int width;
 	private int height;
 	private Thread animator;
@@ -25,7 +25,7 @@ public abstract class Plane extends JPanel implements Runnable{
 		this.width = width;
 		this.height = height;
 		this.map = map;
-		initUI(width,height,map);
+		
 		
 	}
 	public JFrame getMain() {
