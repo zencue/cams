@@ -21,7 +21,9 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     public CAMS_WireWorld(CAMS_Mainframe m) {
         initComponents();
         main = m;
-        plane = new Plane(map.length, map[0].length, map, this);
+        
+       
+		
     }
 
     /**
@@ -32,38 +34,18 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        wwHomeBtn = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        wwHomeBtn.setText("HOME");
-        wwHomeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wwHomeBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(wwHomeBtn)
-                .addContainerGap(322, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(wwHomeBtn)
-                .addContainerGap(271, Short.MAX_VALUE))
-        );
-
-        pack();
+    	map = new Cell[100][100];
+    	plane = new WireworldPlane(map.length, map[0].length, map, this);
+        
+        plane.setVisible(true);
+        add(plane,BorderLayout.CENTER);
+		pack();
+		
+		setSize(1000,800);
+		setTitle("Application");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
     private void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
 
         main.setVisible(true);
