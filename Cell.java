@@ -30,50 +30,7 @@ public class Cell extends JPanel{
 		setSize(100,100);
 //		slot.addMouseListener(new SlotListener());
 		
-		addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	
-            		            		
-//            		if(Plane.getCurrentArrowType() == 1) {
-//            			el = new BasicWire(x,y,slot,board.getSpeed(),board.getDirection());
-//            		}
-//            		else if(Plane.getCurrentArrowType() == 2) {
-//            			el = new SourceWire(x,y,slot,board.getSpeed(),board.getDirection());
-//            			plane.addSource((SourceArrow)arrow);
-//            		}
-//                    
-                    isTaken = true;
-                    
-                    plane.revalidate();
-            	
-            	
-                
-            }
-            boolean isPressed = false;
-			int initialX;
-        	int initialY;
-            @Override
-            public void mousePressed(MouseEvent e) {
-            	
-            	initialX = e.getX();
-            	initialY = e.getY();
-            	isPressed = true;
-            	System.out.println(initialX);
-            	
-            }
-            @Override
-            public void mouseMoved(MouseEvent e) {
-            	
-            	
-            	
-            }
-            @Override 
-            public void mouseReleased(MouseEvent e) {
-            	isPressed = false;
-            }
-        });
+		
 		
 		
 
@@ -83,5 +40,11 @@ public class Cell extends JPanel{
 	}
 	public  Element getElement() {
 		return this.el;
+	}
+	public void addElement(Element el) {
+		this.el = el;
+	}
+	public int[] getPos() {
+		return new int[] {x,y};
 	}
 }
