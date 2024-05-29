@@ -10,7 +10,7 @@ public class Electron {
 		this.y = y;
 		this.speed = speed;
 	}
-	public void moveSignal() {
+	public void moveElectron() {
 		
 		this.x += speed[0];
 		this.y += speed[1];
@@ -20,9 +20,13 @@ public class Electron {
 		return new int[] {this.x,this.y};
 	}
 	public String toString() {
-		return x+" "+y;
+		return "Electron position:"+x+" "+y;
 	}
 	public void setSpeed(int[] speed) {
 		this.speed = speed;
 	}
+	public int[] getSpeed() {
+		return speed;
+	}
+	
 }
