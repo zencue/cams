@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class WireworldPlane extends Plane{
 	private static ArrayList<Electron> electrons;
 	private static ArrayList<SourceWire> sources;
-	private static int currentArrowType;
+	private static int currentWireType;
 	private JPanel plane;
 	private String dir;
 	private int[] speed;
@@ -23,7 +23,7 @@ public class WireworldPlane extends Plane{
 		super(width, height, map, main);
 		electrons = new ArrayList<Electron>();
 		sources = new ArrayList<SourceWire>();
-		currentArrowType = 1;
+		currentWireType = 1;
 		this.dir = "right";
 		this.speed = new int[] {1,0};
 		initUI(width,height,map);
@@ -35,7 +35,7 @@ public class WireworldPlane extends Plane{
 		plane.setBorder(BorderFactory.createLineBorder(Color.black));
 		plane.setLayout(new GridLayout(width,height));
 		plane.setVisible(true);
-
+		plane.addMouseListener(panelMove(this));
 		WireworldPlane planeItSelf = this;
 		for(int i =0;i<height;i++) {
 			for(int j =0;j<width;j++) {
@@ -49,11 +49,12 @@ public class WireworldPlane extends Plane{
 		            		int x = cell.getPos()[0];
 		            		int y = cell.getPos()[1];
 		            		Element wire = null;  		
-		            		if(planeItSelf.getCurrentArrowType() == 1) {
-		            			wire = new BasicWire(x,y,cell,planeItSelf.getSpeed(),planeItSelf.getDirection());
+		            		if(WireworldPlane.getCurrentWireType() == 1) {
+		            			wire = new BasicWire(x,y,cell);
 		            		}
-		            		else if(planeItSelf.getCurrentArrowType() == 2) {
-		            			wire = new SourceWire(x,y,cell,planeItSelf.getSpeed(),planeItSelf.getDirection());
+		            		else if(WireworldPlane.getCurrentWireType() == 2) {
+		            			
+		            			wire = new SourceWire(x,y,cell);
 		            			planeItSelf.addSource((SourceWire)wire);
 		            		}
 		                    cell.addElement(wire);
@@ -64,16 +65,11 @@ public class WireworldPlane extends Plane{
 		            	
 		                
 		            }
-		            boolean isPressed = false;
-					int initialX;
-		        	int initialY;
+		            
 		            @Override
 		            public void mousePressed(MouseEvent e) {
 		            	
-		            	initialX = e.getX();
-		            	initialY = e.getY();
-		            	isPressed = true;
-		            	System.out.println(initialX);
+		            	
 		            	
 		            }
 		            @Override
@@ -84,7 +80,7 @@ public class WireworldPlane extends Plane{
 		            }
 		            @Override 
 		            public void mouseReleased(MouseEvent e) {
-		            	isPressed = false;
+		            	
 		            }
 		        });
 			}
@@ -96,12 +92,12 @@ public class WireworldPlane extends Plane{
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char key = e.getKeyChar();
-				
+				System.out.println(key);
 				if(key == '2') {
-					currentArrowType = 2;
+					currentWireType = 2;
 				}
 				else if(key == '1') {
-					currentArrowType = 1;
+					currentWireType = 1;
 				
 				}
 				
@@ -139,36 +135,54 @@ public class WireworldPlane extends Plane{
 	}
 	@Override
 	public void paintComponent(Graphics g) {
-		
-		for(int i=0;i<electrons.size();i++) {
-			int[] pos = electrons.get(i).getPos();
-			Wire currentWire = (Wire)map[pos[0]][pos[1]].getElement();
-			if(currentWire != null) {
-				currentWire.removeElectron();
+		ArrayList<Integer[]>proccessedWires = new ArrayList<Integer[]>();
+		for(int i=0;i<electrons.size();i++){
+			Electron el = electrons.get(i);
+			int[] pos = el.getPos();
+			boolean status = true;
+			for(Integer[] j:proccessedWires) {
+				if(j[0] == pos[0] && j[1] == pos[1]) {
+					status = false;
+					break;
+				}
 			}
-			electrons.get(i).moveSignal();
-			pos = electrons.get(i).getPos();
-			Wire newWire = (Wire)map[pos[0]][pos[1]].getElement();
-			if(newWire == null) {
-				electrons.remove(i);
-				i-=1;
+			if(status) {
+					Wire currentWire = (Wire)map[pos[0]][pos[1]].getElement();
+					if(currentWire != null) {
+						currentWire.removeElectrons();
+					}
+					el.moveElectron();
+					pos =electrons.get(i).getPos();
+					Wire newWire = (Wire)map[pos[0]][pos[1]].getElement();
+					
+					if(newWire == null) {
+						electrons.remove(i);
+						i-=1;
+					}
+					else{
+						newWire.addElectron(electrons.get(i));
+					}
+					
+					
+					proccessedWires.add(new Integer[] {pos[0],pos[1]});
 			}
-			else {
-				newWire.addElectron(electrons.get(i));
-			}
+			
 			
 		}
 		for(int i = 0;i<sources.size();i++) {
-			sources.get(i).createSignal();
+			sources.get(i).createSignals();
 		}
 		
 		
 	}
-	public static int getCurrentArrowType() {
-		return currentArrowType;
+	public static int getCurrentWireType() {
+		return currentWireType;
 	}
-	public static void addElectron(Electron signal) {
-		electrons.add(signal);
+	public static void addElectron(Electron electron) {
+		electrons.add(electron);
+	}
+	public static void removeElectron(Electron electron) {
+		electrons.remove(electron);
 	}
 	public static void addSource(SourceWire source) {
 		sources.add(source);
