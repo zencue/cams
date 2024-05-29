@@ -35,6 +35,9 @@ public class Cell extends JPanel{
 		
 
 	}
+	public Plane getPlane() {
+		return plane;
+	}
 	public void setElement(Element el) {
 		this.el = el;
 	}
