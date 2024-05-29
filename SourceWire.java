@@ -1,33 +1,34 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class SourceWire extends Wire{
 	private Wire wire;
-	private Electron electron;
+	private ArrayList<Electron> electrons;
 	private int finish;
 	private int counter;
-	private final int[][] speeds = new int[4][2] ;
-	public SourceWire(int x, int y,Cell parent,int[] speed, String dir) {
+	private final ArrayList<Integer[]> speeds ;
+	public SourceWire(int x, int y,Cell parent) {
 		
-		super(x,y,parent,Color.red, speed,  dir);
-		speeds[0][0] = 1;
-		speeds[0][1] = 0;
-		speeds[1][0] = -1;
-		speeds[1][1] = 0;
-		
-		speeds[2][1] = 1;
-		speeds[2][0] = 0;
-		speeds[3][1] = -1;
-		speeds[3][0] = 0;
+		super(x,y,parent,Color.red);
+		speeds = new ArrayList<Integer[]>();
+		speeds.add(new Integer[] {1,0});
+		speeds.add(new Integer[] {-1,0});
+		speeds.add(new Integer[] {0,1});
+		speeds.add(new Integer[] {0,-1});
 		counter = 0;
 		finish = 3;
+		electrons = new ArrayList<Electron>();
 		wire = this;
+		System.out.println(x+" "+y);
 		createSignals();
 	}
 	public void createSignals() {
 		if(counter == finish) {
 			for(int i =0;i<4;i++) {
-				electron = new Electron(this.getX(),this.getY(),speeds[i]);
-				WireworldPlane.addElectron(electron);
+				Electron e = new Electron(this.getX(),this.getY(),new int[] {speeds.get(i)[0],speeds.get(i)[1]});
+				electrons.add(e);
+				WireworldPlane.addElectron(e);
+				
 			}
 			
 			counter = 0;
@@ -36,17 +37,17 @@ public class SourceWire extends Wire{
 			counter+=1;
 		}
 	}
-	public boolean doesContainElectron() {
-		return electron != null;
+	public boolean doesContainElectrons() {
+		return electrons.size() != 0;
 	}
 	public void addElectron(Electron electron) {
-		this.electron = electron;
-		this.electron.setSpeed(getSpeed());
+		electrons.add(electron);
+		
 	}
-	public void removeElectron() {
-		electron = null;
+	public void removeElectrons() {
+		electrons.clear();
 	}
-	public Electron getElectron() {
-		return electron;
+	public ArrayList<Electron> getElectrons() {
+		return electrons;
 	}
 }
