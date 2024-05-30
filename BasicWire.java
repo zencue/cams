@@ -30,6 +30,7 @@ public class BasicWire extends Wire{
 				WireworldPlane.removeElectron(electrons.get(i));
 			}
 			electrons.clear();
+			boolean status = true;
 			for(int i = 0;i<newElectrons.size();i++) {
 				Electron el = newElectrons.get(i);
 					for(int j =0;j<speedsCopy.size();j++) {
@@ -39,17 +40,27 @@ public class BasicWire extends Wire{
 							j=-1;
 						}
 						else if((int)speedsCopy.get(j)[0] == -electron.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == -electron.getSpeed()[1]) {
+							if((int)speedsCopy.get(j)[0] == el.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == el.getSpeed()[1]) {
+								status = false;
+								newElectrons.remove(el);
+								WireworldPlane.removeElectron(electron);
+								WireworldPlane.removeElectron(el);
+								
+								i=-1;
+							}
+							
 							speedsCopy.remove(j);
 							
 							j=-1;
 						}
 						
+						
+						
 					}
-					WireworldPlane.removeElectron(electron);
-					WireworldPlane.removeElectron(el);
-					newElectrons.remove(el);
-					i-=1;
-				
+			}
+			if(status) {
+				electrons.add(electron);
+				newElectrons.add(electron);
 			}
 		}
 		else {
@@ -90,7 +101,13 @@ public class BasicWire extends Wire{
 			electrons.add(newElectron);
 		}
 		
-		setBackground(Color.red);
+		if(electrons.size()==0) {
+			this.setBackground(Color.green);
+		}
+		else {
+			this.setBackground(Color.red);
+		}
+		
 
 	}
 	public boolean doesContainElectrons() {
