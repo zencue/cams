@@ -15,8 +15,8 @@ public class SourceWire extends Wire{
 		speeds.add(new Integer[] {-1,0});
 		speeds.add(new Integer[] {0,1});
 		speeds.add(new Integer[] {0,-1});
-		counter = 0;
-		finish = 3;
+		counter = 5;
+		finish = 5;
 		electrons = new ArrayList<Electron>();
 		wire = this;
 		System.out.println(x+" "+y);
@@ -51,3 +51,4 @@ public class SourceWire extends Wire{
 		return electrons;
 	}
 }
+
