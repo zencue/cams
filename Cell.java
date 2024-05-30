@@ -47,7 +47,16 @@ public class Cell extends JPanel{
 	public void addElement(Element el) {
 		this.el = el;
 	}
+	public void removeElement() {
+		if(el instanceof SourceWire) {
+			((WireworldPlane)plane).removeSource((SourceWire)el);
+		}
+		
+		this.el = null;
+		setBackground(Color.lightGray);
+	}
 	public int[] getPos() {
 		return new int[] {x,y};
 	}
 }
+
