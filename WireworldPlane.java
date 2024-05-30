@@ -60,11 +60,12 @@ public class WireworldPlane extends Plane{
 	            		if(status) {
 	            			Element wire = null;  		
 		            		if(WireworldPlane.getCurrentWireType() == 1) {
+		            			cell.removeElement();
 		            			wire = new BasicWire(x,y,cell);
 		            			cell.addElement(wire);
 		            		}
 		            		else if(WireworldPlane.getCurrentWireType() == 2) {
-		            			
+		            			cell.removeElement();
 		            			wire = new SourceWire(x,y,cell);
 		            			planeItSelf.addSource((SourceWire)wire);
 		            			cell.addElement(wire);
@@ -84,6 +85,7 @@ public class WireworldPlane extends Plane{
 		            public void mouseMoved(MouseEvent e) {
 		            	int x = cell.getPos()[0];
 	            		int y = cell.getPos()[1];
+	            		System.out.println(e);
 	            		if(status) {
 	            			Element wire = null;  		
 		            		if(WireworldPlane.getCurrentWireType() == 1) {
@@ -100,6 +102,32 @@ public class WireworldPlane extends Plane{
 		                    plane.revalidate();
 	            		}
 	            		
+	            		
+		            	
+		            	
+		            }
+		            @Override
+		            public void mouseDragged(MouseEvent e) {
+		            	int x = cell.getPos()[0];
+	            		int y = cell.getPos()[1];
+	            		System.out.println(e);
+	            		if(status) {
+	            			Element wire = null;  		
+		            		if(WireworldPlane.getCurrentWireType() == 1) {
+		            			wire = new BasicWire(x,y,cell);
+		            		}
+		            		else if(WireworldPlane.getCurrentWireType() == 2) {
+		            			
+		            			wire = new SourceWire(x,y,cell);
+		            			planeItSelf.addSource((SourceWire)wire);
+		            		}
+		                    cell.addElement(wire);
+		                    
+		                    
+		                    plane.revalidate();
+	            		}
+	            		
+	            		
 		            	
 		            	
 		            }
@@ -112,7 +140,7 @@ public class WireworldPlane extends Plane{
 			
 		}
 		add(plane,BorderLayout.CENTER);
-		plane.addKeyListener(new KeyListener() {
+		main.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -134,25 +162,7 @@ public class WireworldPlane extends Plane{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				int code = e.getKeyCode();
 				
-				if(code == 40) {
-					dir = "down";
-					setSpeed(new int[]{0,1});
-				}
-				else if(code == 39) {
-					dir = "right";
-					setSpeed(new int[]{1,0});
-				}
-				else if(code == 38) {
-					dir = "up";
-					setSpeed(new int[]{0,-1});
-				}
-				else if(code == 37) {
-					dir = "left";
-					setSpeed(new int[]{-1,0});
-					
-				}
 				
 			}
 
@@ -187,6 +197,17 @@ public class WireworldPlane extends Plane{
 					
 					if(newWire == null) {
 						electrons.remove(i);
+						i-=1;
+					}
+					else if(newWire.doesContainElectrons()) {
+						electrons.remove(i);
+						int counter = 0;
+						ArrayList<Electron> els = newWire.getElectrons();
+						for(Electron j: els) {
+							counter+=1;
+							electrons.remove(j);
+						}
+						newWire.removeElectrons();
 						i-=1;
 					}
 					else{
