@@ -4,11 +4,14 @@
  */
 package cams;
 
+import java.awt.Color;
+
 /**
  *
  * @author darek1849
  */
 public class GameOfLifeElement extends Element{
+    private Cell parent;
     private boolean alive;
     private int x;
     private int y;
@@ -17,8 +20,10 @@ public class GameOfLifeElement extends Element{
     
     
     
-    public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane){
+    public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane, Cell parent){
         this.alive = true;
+        this.parent = parent;
+        parent.setBackground(Color.black);
         this.x = xPos;
         this.y = yPos;
         this.plane = plane;
@@ -55,7 +60,9 @@ public class GameOfLifeElement extends Element{
     public boolean checkAlive(){
         
         if(this.aliveNeighbours() >= 2 || this.aliveNeighbours() <=3){
-            
+            return true;
+        }else{
+            return false;
         }
     }
     
