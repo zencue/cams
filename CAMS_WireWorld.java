@@ -1,9 +1,12 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cams;
 
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -34,17 +37,32 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        wwHomeBtn = new javax.swing.JButton();
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        wwHomeBtn.setText("HOME");
+        wwHomeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wwHomeBtnActionPerformed(evt);
+            }
+        });
+        
     	map = new Cell[100][100];
     	plane = new WireworldPlane(map.length, map[0].length, map, this);
+        plane.add(wwHomeBtn, BorderLayout.NORTH);
         
         plane.setVisible(true);
         add(plane,BorderLayout.CENTER);
+        
 		pack();
 		
 		setSize(1000,800);
 		setTitle("Application");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setLocationRelativeTo(null);
+                
+                
+                
     }// </editor-fold>//GEN-END:initComponents
     private void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
 
