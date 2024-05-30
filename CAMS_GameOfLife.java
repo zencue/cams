@@ -1,22 +1,30 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+Dawson Fedor Janura
+Game of Life frame
+*/
 package cams;
+
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author darek1849
  */
 public class CAMS_GameOfLife extends javax.swing.JFrame {
-
+    // reference main cuz this is second window
     CAMS_Mainframe main;
+    private JPanel plane;
     
+    public Cell[][] map;
     public CAMS_GameOfLife(CAMS_Mainframe m) {
         initComponents();
-        main = m;
+        // add it
+        
+        
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,37 +34,19 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        golHomeBtn = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        golHomeBtn.setText("HOME");
-        golHomeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                golHomeBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(golHomeBtn)
-                .addContainerGap(322, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(golHomeBtn)
-                .addContainerGap(271, Short.MAX_VALUE))
-        );
-
-        pack();
+        map = new Cell[100][100];
+    	plane = new GameOfLifePlane(map.length, map[0].length, map, this);
+        
+        plane.setVisible(true);
+        add(plane,BorderLayout.CENTER);
+		pack();
+		
+		setSize(1000,800);
+		setTitle("Application");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+// send back to first window
     private void golHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_golHomeBtnActionPerformed
         this.setVisible(false);
         main.setVisible(true);
