@@ -5,7 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,29 +33,34 @@ public abstract class Plane extends JPanel implements Runnable{
 		return main;
 	}
 	
-	private void initUI(int width,int height,Cell[][] map){
-		plane = new JPanel();
-		
-		plane.setBorder(BorderFactory.createLineBorder(Color.white));
-		plane.setLayout(new GridLayout(width,height));
-		plane.setVisible(true);
-		
-		
-		for(int i =0;i<height;i++) {
-			for(int j =0;j<width;j++) {
-				Cell cell = new Cell(this,j,i);
-				map[j][i] = cell;
-				plane.add(cell);
-				
-			}
-			
-		}
-		
-		add(plane,BorderLayout.CENTER);
-		
-
+	protected MouseAdapter panelMove(JPanel jpanel) {
+		return new MouseAdapter() {
+			@Override
+            public void mouseClicked(MouseEvent e) {
+            		
+            	
+            	
+                
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	System.out.println(e.getID());
+            	
+            	
+            }
+            @Override
+            public void mouseMoved(MouseEvent e) {
+            	
+            	System.out.println(e.getID());
+            	
+            }
+            @Override 
+            public void mouseReleased(MouseEvent e) {
+            	
+            }
+		};
 	}
-	
 	
 	@Override
     public void addNotify() {
@@ -84,5 +90,8 @@ public abstract class Plane extends JPanel implements Runnable{
 			}
 			beforeTime = System.currentTimeMillis();
 		}
+	}
+	public Cell[][] getMap(){
+		return map;
 	}
 }
