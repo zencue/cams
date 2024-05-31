@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -6,8 +5,10 @@
 package cams;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 /**
  *
@@ -15,18 +16,17 @@ import javax.swing.JPanel;
  */
 public class CAMS_WireWorld extends javax.swing.JFrame {
 
-    CAMS_Mainframe main;
-    
+    CAMS_Mainframe main; //this does not work anymore 
+
+    //Create a seperate panel for the buttons, only make the cellular automata thing editable tho
     private JPanel plane;
-    
+
     public Cell[][] map;
-    
+
     public CAMS_WireWorld(CAMS_Mainframe m) {
         initComponents();
         main = m;
-        
-       
-		
+
     }
 
     /**
@@ -38,7 +38,7 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         wwHomeBtn = new javax.swing.JButton();
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         wwHomeBtn.setText("HOME");
         wwHomeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -46,31 +46,40 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
                 wwHomeBtnActionPerformed(evt);
             }
         });
+
+        JToolBar toolbar = new JToolBar();
         
-    	map = new Cell[100][100];
-    	plane = new WireworldPlane(map.length, map[0].length, map, this);
-        plane.add(wwHomeBtn, BorderLayout.NORTH);
-        
+        map = new Cell[100][100];
+
+        plane = new WireworldPlane(map.length, map[0].length, map, this);
+
         plane.setVisible(true);
-        add(plane,BorderLayout.CENTER);
+        add(plane, BorderLayout.CENTER);
         
-		pack();
-		
-		setSize(1000,800);
-		setTitle("Application");
-		
-		setLocationRelativeTo(null);
-                
-                
-                
+        
+        toolbar.setRollover(true);
+        toolbar.add(wwHomeBtn);
+        
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        
+        
+        add(toolbar, BorderLayout.PAGE_START);
+
+        pack();
+
+        setSize(1000, 800);
+        setTitle("Application");
+        
+
+        setLocationRelativeTo(null);
+
     }// </editor-fold>//GEN-END:initComponents
+
     private void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
 
         main.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_wwHomeBtnActionPerformed
-
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton wwHomeBtn;
