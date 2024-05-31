@@ -20,13 +20,14 @@ public class GameOfLifeElement extends Element{
     
     
     
-    public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane, Cell parent){
-        this.alive = true;
+    public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane, Cell parent,boolean isAlive){
+        
         this.parent = parent;
         parent.setBackground(Color.black);
         this.x = xPos;
         this.y = yPos;
         this.plane = plane;
+        // add if x+1 x-1 y+1 or y-1 is out of bounds dont add that neighbour
         neighbours[0][0] = x;
         neighbours[0][1] = y+1;
         neighbours[1][0] = x+1;
@@ -43,12 +44,14 @@ public class GameOfLifeElement extends Element{
         neighbours[6][1] = y;
         neighbours[7][0] = x-1;
         neighbours[7][1] = y+1;
+        this.alive = isAlive;
     }
     
    
     
     public int aliveNeighbours(){
         int numAliveNbs = 0;
+        
         if(plane.map[neighbours[0][0]][neighbours[0][1]].getElement() == null){
            
         }else{
@@ -56,7 +59,9 @@ public class GameOfLifeElement extends Element{
         }
         return numAliveNbs;
     }
-    
+    public void setAlive(boolean alive){
+        this.alive = alive;
+    }
     public boolean checkAlive(){
         
         if(this.aliveNeighbours() >= 2 || this.aliveNeighbours() <=3){
@@ -66,5 +71,7 @@ public class GameOfLifeElement extends Element{
         }
     }
     
+    
+}
     
 }
