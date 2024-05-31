@@ -56,7 +56,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         plane.setVisible(true);
         add(plane, BorderLayout.CENTER);
         
-        
+        //there is a bug with the toolbar itself, the event listener for the key input won't work when the WireWorld plane originally appears with the toolbar, however, once you 
+        //seperate it, the evenet listener works again as seperate entities and then you are able to put down a source wire once again.
         toolbar.setRollover(true);
         toolbar.add(wwHomeBtn);
         
