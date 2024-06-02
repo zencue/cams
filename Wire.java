@@ -5,13 +5,15 @@ public abstract class Wire extends Element{
 	protected int x;
 	protected int y;
 	protected Cell parent;
-	
+	protected ArrayList<Electron> electrons;
+	protected Cell[][]map;
 	
 	public Wire(int x,int y,Cell parent,Color color) {
 		this.x = x;
 		this.y = y;
 		this.parent = parent;
-
+		this.map = parent.getPlane().getMap();
+		this.electrons = new ArrayList<Electron>();
 		parent.setBackground(color);
 	}
 	public int[] getPos() {
@@ -23,7 +25,7 @@ public abstract class Wire extends Element{
 	public int getY() {
 		return y;
 	}
-	public abstract void addElectron(Electron signal);
+	public abstract void addElectron(Electron electron);
 	public abstract void removeElectrons();
 	public void setBackground(Color color) {
 		parent.setBackground(color);
@@ -33,5 +35,6 @@ public abstract class Wire extends Element{
 	}
 	public abstract boolean doesContainElectrons();
 	public abstract ArrayList<Electron>  getElectrons();
+
 
 }
