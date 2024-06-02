@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 public class Cell extends JPanel{
 	private  Cell  cell;
 	private int x,y;
+	private static Color color;
 	private  Plane plane;
 	private Element el;
 	private boolean isTaken;
@@ -21,6 +22,8 @@ public class Cell extends JPanel{
 		isTaken = false;
 		this.plane = plane;
 		cell = this;
+		color = Color.lightGray;
+		
 	}
 	private void initUI() {
 		
@@ -28,12 +31,9 @@ public class Cell extends JPanel{
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.lightGray);
 		setSize(100,100);
+		JLabel bg = new JLabel();
+		
 //		slot.addMouseListener(new SlotListener());
-		
-		
-		
-		
-
 	}
 	public Plane getPlane() {
 		return plane;
@@ -58,5 +58,7 @@ public class Cell extends JPanel{
 	public int[] getPos() {
 		return new int[] {x,y};
 	}
+	public Color getColor() {
+		return color;
+	}
 }
-
