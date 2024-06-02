@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class SourceWire extends Wire{
 	private Wire wire;
-	private ArrayList<Electron> electrons;
+	
 	private int finish;
 	private int counter;
 	private final ArrayList<Integer[]> speeds ;
@@ -17,9 +17,8 @@ public class SourceWire extends Wire{
 		speeds.add(new Integer[] {0,-1});
 		counter = 5;
 		finish = 5;
-		electrons = new ArrayList<Electron>();
+		WireworldPlane.addSource(this);
 		wire = this;
-		System.out.println(x+" "+y);
 		createSignals();
 	}
 	public void createSignals() {
