@@ -2,21 +2,21 @@ import java.awt.Color;
 import java.util.ArrayList;
 public class BasicWire extends Wire{
 	private Wire wire;
-	private ArrayList<Electron> electrons;
+	
 	private ArrayList<Electron> newElectrons;
-	private Cell[][]map;
+	
 	private final ArrayList<Integer[]> speeds ;
 	
 	public BasicWire(int x, int y,Cell parent) {
 		super(x,y,parent,Color.green);
-		map = parent.getPlane().getMap();
+		
 		wire = this;
 		speeds = new ArrayList<Integer[]>();
 		speeds.add(new Integer[] {1,0});
 		speeds.add(new Integer[] {-1,0});
 		speeds.add(new Integer[] {0,1});
 		speeds.add(new Integer[] {0,-1});
-		electrons = new ArrayList<Electron>();
+
 		newElectrons = new ArrayList<Electron>();
 		
 	}
