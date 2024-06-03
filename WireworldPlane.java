@@ -178,6 +178,18 @@ public class WireworldPlane extends Plane{
 		add(plane,BorderLayout.CENTER);//putting the Grid plane inside this WireWorld panel
 		main.addKeyListener(new KeyListener() {
 
+//instead of using keyTyped to switched between types of wires, use a button that will be placed in the JToolBar
+//Need to figure out how to implement that 			
+//                JButton sourceWireBtn = new JButton(); //need to create a source, basic, and delete wire button 
+//                JButton basicWire = new JButton();
+//                JButton deleteWire = new JButton();
+//                
+//                
+//		sourceWireBtn.setText("Source Wire");
+//        sourceWireBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
+//            sourceWireBtnActionPerformed(evt);
+//        });
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char key = e.getKeyChar();
