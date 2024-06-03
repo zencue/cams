@@ -1,7 +1,7 @@
 /*
 Dawson Fedor Janura
 Game of Life frame
-*/
+ */
 package cams;
 
 import java.awt.BorderLayout;
@@ -13,18 +13,19 @@ import javax.swing.JPanel;
  * @author darek1849
  */
 public class CAMS_GameOfLife extends javax.swing.JFrame {
+
     // reference main cuz this is second window
     CAMS_Mainframe main;
     private JPanel plane;
-    
+
     public Cell[][] map;
+
     public CAMS_GameOfLife(CAMS_Mainframe m) {
         initComponents();
         // add it
-        
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,26 +36,30 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     private void initComponents() {
 
         map = new Cell[100][100];
-    	plane = new GameOfLifePlane(map.length, map[0].length, map, this);
-        
+
+        //need to add toolbar to game of life as well, will implement later today
+	    
+        //the actual functionality of the plane does not work properly
+        plane = new GameOfLifePlane(map.length, map[0].length, map, this);
+
         plane.setVisible(true);
-        add(plane,BorderLayout.CENTER);
-		pack();
-		
-		setSize(1000,800);
-		setTitle("Application");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+        add(plane, BorderLayout.CENTER);
+        pack();
+
+        setSize(1000, 800);
+        setTitle("Application");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 // send back to first window
+
     private void golHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_golHomeBtnActionPerformed
         this.setVisible(false);
         main.setVisible(true);
     }//GEN-LAST:event_golHomeBtnActionPerformed
 
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton golHomeBtn;
     // End of variables declaration//GEN-END:variables
 }
+
