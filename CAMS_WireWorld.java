@@ -51,6 +51,9 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         
         map = new Cell[100][100];
 
+        //either need to be able to implement the toolbar into the WireWorld plane so that we can add functionality in the plane itself
+        //or create methods inside the plane which we can call here so that the buttons can do those specific applications here
+        //need to make sure that no JFrame event listeners are inside these methods as the event listeners in this class would override it 
         plane = new WireworldPlane(map.length, map[0].length, map, this);
 
         plane.setVisible(true);
