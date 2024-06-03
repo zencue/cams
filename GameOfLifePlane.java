@@ -52,7 +52,7 @@ public class GameOfLifePlane extends Plane {
                             public void mousePressed(MouseEvent e) {
                                 isPressed = true;
                                 int position[] = cell.getPos();
-                                if(cell.getElement() == null){
+                                if( ((GameOfLifeElement)(cell.getElement())).checkAlive() == false){
                                     GameOfLifeElement el = new GameOfLifeElement(position[0], position[1], planeItSelf, cell, true);
                                     cell.addElement(el);
                                     
@@ -90,7 +90,6 @@ public class GameOfLifePlane extends Plane {
             Cell[][] newMap = map.clone();
             for(int i = 0; i < map[0].length; i++){
                 for(int j = 0; j < map.length; j++){
-                    System.out.println("Poo");
                     GameOfLifeElement el = (GameOfLifeElement)map[i][j].getElement();
                     if(el == null){
                         el = new GameOfLifeElement(i, j, this, map[i][j], false);
@@ -110,3 +109,4 @@ public class GameOfLifePlane extends Plane {
 	}
 	
     }
+
