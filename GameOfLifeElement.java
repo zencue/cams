@@ -5,6 +5,7 @@
 package cams;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,35 +17,73 @@ public class GameOfLifeElement extends Element{
     private int x;
     private int y;
     private GameOfLifePlane plane;
-    private int[][] neighbours = new int[8][2];
+    // change to array list
+    private ArrayList<Integer> neighbours = new ArrayList<Integer>();
     
     
     
     public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane, Cell parent,boolean isAlive){
         
         this.parent = parent;
-        parent.setBackground(Color.black);
+        
         this.x = xPos;
         this.y = yPos;
         this.plane = plane;
         // add if x+1 x-1 y+1 or y-1 is out of bounds dont add that neighbour
-        neighbours[0][0] = x;
-        neighbours[0][1] = y+1;
-        neighbours[1][0] = x+1;
-        neighbours[1][1] = y+1;
-        neighbours[2][0] = (x+1);
-        neighbours[2][1] = y;
-        neighbours[3][0] = x+1;
-        neighbours[3][1] = y-1;
-        neighbours[4][0] = x;
-        neighbours[4][1] = y-1;
-        neighbours[5][0] = x-1;
-        neighbours[5][1] = y-1;
-        neighbours[6][0] = x-1;
-        neighbours[6][1] = y;
-        neighbours[7][0] = x-1;
-        neighbours[7][1] = y+1;
+        if(y+1 >= 100){
+            
+        }else{
+            neighbours.add(x);
+            neighbours.add(y+1);
+        }
+        if(y+1 >= 100 || x+1 >= 100){
+            
+        }else{
+        neighbours.add(x+1);
+        neighbours.add(y+1);
+        }
+        if(x+1 >= 100){
+            
+        }else{
+        neighbours.add(x+1);
+        neighbours.add(y);
+        }
+        if(x+1 >= 100 || y-1 < 0){
+            
+        }else{
+        neighbours.add(x+1);
+        neighbours.add(y-1);
+        }
+        if(y-1 < 0){
+            
+        }else{
+        neighbours.add(x);
+        neighbours.add(y-1);
+        }
+        if(x-1 < 0 || y-1 < 0){
+            
+        }else{
+            neighbours.add(x-1);
+            neighbours.add(y-1);  
+        }
+        if(x-1 < 0){
+            
+        }else{
+            neighbours.add(x-1);
+            neighbours.add(y);
+        }
+        if(x-1 < 0 || y+1 >= 100){
+            
+        }else{
+        neighbours.add(x-1);
+        neighbours.add(y+1);
+        }
         this.alive = isAlive;
+        if(isAlive){
+        parent.setBackground(Color.black);
+        }else{
+            parent.setBackground(Color.white);
+        }
     }
     
    
@@ -52,26 +91,30 @@ public class GameOfLifeElement extends Element{
     public int aliveNeighbours(){
         int numAliveNbs = 0;
         
-        if(plane.map[neighbours[0][0]][neighbours[0][1]].getElement() == null){
+            for(int k = 0; k < neighbours.size()/2; k+=2){
+
+                if(plane.map[neighbours.get(k)][neighbours.get(k+1)].getElement() == null){
            
         }else{
+                  
             numAliveNbs++;
         }
+            }
+        
+        
         return numAliveNbs;
     }
     public void setAlive(boolean alive){
         this.alive = alive;
     }
     public boolean checkAlive(){
-        
-        if(this.aliveNeighbours() >= 2 || this.aliveNeighbours() <=3){
+        int proof = this.aliveNeighbours();
+        if(proof >= 2 && proof <=3){
             return true;
         }else{
             return false;
         }
     }
     
-    
-}
     
 }
