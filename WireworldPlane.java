@@ -7,8 +7,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,6 +20,7 @@ public class WireworldPlane extends Plane{
 	private static ArrayList<LogicWire> logicWires;//array of the all logicWires in the plane
 	private static int currentWireType;//the index of the type of the wire, to indicate whic hwire user wnat to use
 	private JPanel plane;
+	private boolean isStopped;
 	private int[] speed;//direction, which user chose to put logci wires
 	private boolean isPressed;// variables which check if mouse is pressed
 	/**
@@ -36,6 +39,7 @@ public class WireworldPlane extends Plane{
 		currentWireType = 1;
 		initUI(width,height,map);
 		speed = new int[] {1,0};
+		isStopped = false;
 	}
 	/**
 	 *Method which creates all important gui elements on the gridd
@@ -50,7 +54,40 @@ public class WireworldPlane extends Plane{
 		plane.setBorder(BorderFactory.createLineBorder(Color.black));// creating border
 		plane.setLayout(new GridLayout(width,height));//setting the gridd
 		plane.setVisible(true);
-		WireworldPlane planeItSelf = this;// the instance of this class to call it in the cell mouse adapter
+		JPanel toolPanel = new JPanel();
+		JButton play = new JButton("Play");
+		play.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isStopped = false;
+				
+			}
+			
+		});
+        JButton pause = new JButton("Pause");
+        pause.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isStopped = true;
+				
+			}
+			
+		});
+       JButton  wwHomeBtn = new javax.swing.JButton();
+
+       
+        wwHomeBtn.setText("HOME");
+        wwHomeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((CAMS_WireWorld)main).wwHomeBtnActionPerformed(evt);
+           }
+        });
+        toolPanel.add(wwHomeBtn);
+        toolPanel.add(play);
+        toolPanel.add(pause);
+// the instance of this class to call it in the cell mouse adapter
 		//going through entire map
 		for(int i =0;i<height;i++) {
 			for(int j =0;j<width;j++) {
@@ -174,24 +211,13 @@ public class WireworldPlane extends Plane{
 			}
 			
 		}
-		
+		add(toolPanel, BorderLayout.PAGE_START);
 		add(plane,BorderLayout.CENTER);//putting the Grid plane inside this WireWorld panel
-		main.addKeyListener(new KeyListener() {
-
-//instead of using keyTyped to switched between types of wires, use a button that will be placed in the JToolBar
-//Need to figure out how to implement that 			
-//                JButton sourceWireBtn = new JButton(); //need to create a source, basic, and delete wire button 
-//                JButton basicWire = new JButton();
-//                JButton deleteWire = new JButton();
-//                
-//                
-//		sourceWireBtn.setText("Source Wire");
-//        sourceWireBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
-//            sourceWireBtnActionPerformed(evt);
-//        });
+		this.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				
 				char key = e.getKeyChar();
 				//changing type of ire based on clicked key
 				if(key == '2') {
@@ -222,6 +248,7 @@ public class WireworldPlane extends Plane{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
 				//changing direction of the wire based on clicked wire
 				if(e.getKeyCode() == 39) {
 					speed = new int[] {1,0};
@@ -253,64 +280,67 @@ public class WireworldPlane extends Plane{
 	 * */
 	@Override
 	public void paintComponent(Graphics g) {
-		ArrayList<ArrayList> aliveElectrons = new ArrayList<ArrayList>();//electrons which are alive after cheking all specific cases
-		for(int i=0;i<electrons.size();i++){//going through all electrons
-			Electron el = electrons.get(i);
-			int[] pos = el.getPos();
-			boolean status = true;
-//			for(Integer[] j:proccessedWires) {
-//				if(j[0] == pos[0] && j[1] == pos[1]) {
-//					status = false;
-//					break;
+		if(!isStopped) {
+			ArrayList<ArrayList> aliveElectrons = new ArrayList<ArrayList>();//electrons which are alive after cheking all specific cases
+			for(int i=0;i<electrons.size();i++){//going through all electrons
+				Electron el = electrons.get(i);
+				int[] pos = el.getPos();
+				boolean status = true;
+//				for(Integer[] j:proccessedWires) {
+//					if(j[0] == pos[0] && j[1] == pos[1]) {
+//						status = false;
+//						break;
+//					}
 //				}
-//			}
-			if(status) {
-					Wire currentWire = (Wire)map[pos[0]][pos[1]].getElement();
-					if(currentWire != null) {
-						currentWire.removeElectrons();
-					}
-					el.moveElectron();
-					pos =electrons.get(i).getPos();
-					Wire newWire = (Wire)map[pos[0]][pos[1]].getElement();
-					
-					if(newWire == null) {
-						electrons.remove(i);
-						i-=1;
-					}
-					else if(newWire.doesContainElectrons()) {
-						electrons.remove(i);
-						int counter = 0;
-						ArrayList<Electron> els = newWire.getElectrons();
-						for(Electron j: els) {
-							counter+=1;
-							electrons.remove(j);
+				if(status) {
+						Wire currentWire = (Wire)map[pos[0]][pos[1]].getElement();
+						if(currentWire != null) {
+							currentWire.removeElectrons();
 						}
-						newWire.removeElectrons();
-						i-=1;
-					}
-					else{
-//						newWire.addElectron(electrons.get(i));
-						ArrayList pair = new ArrayList();
-						pair.add(newWire);
-						pair.add(el);
-						aliveElectrons.add(pair);
-					}
-					
-					
-//					proccessedWires.add(new Integer[] {pos[0],pos[1]});
+						el.moveElectron();
+						pos =electrons.get(i).getPos();
+						Wire newWire = (Wire)map[pos[0]][pos[1]].getElement();
+						
+						if(newWire == null) {
+							electrons.remove(i);
+							i-=1;
+						}
+						else if(newWire.doesContainElectrons()) {
+							electrons.remove(i);
+							int counter = 0;
+							ArrayList<Electron> els = newWire.getElectrons();
+							for(Electron j: els) {
+								counter+=1;
+								electrons.remove(j);
+							}
+							newWire.removeElectrons();
+							i-=1;
+						}
+						else{
+//							newWire.addElectron(electrons.get(i));
+							ArrayList pair = new ArrayList();
+							pair.add(newWire);
+							pair.add(el);
+							aliveElectrons.add(pair);
+						}
+						
+						
+//						proccessedWires.add(new Integer[] {pos[0],pos[1]});
+				}
+				
+				
 			}
-			
-			
+			for(ArrayList i:aliveElectrons) {
+				((Wire)i.get(0)).addElectron((Electron)i.get(1));
+			}
+			for(int i = 0;i<sources.size();i++) {
+				sources.get(i).createSignals();
+			}
+			for(int i = 0;i<logicWires.size();i++) {
+				logicWires.get(i).logicChecking();
+			}
 		}
-		for(ArrayList i:aliveElectrons) {
-			((Wire)i.get(0)).addElectron((Electron)i.get(1));
-		}
-		for(int i = 0;i<sources.size();i++) {
-			sources.get(i).createSignals();
-		}
-		for(int i = 0;i<logicWires.size();i++) {
-			logicWires.get(i).logicChecking();
-		}
+		
 		
 		
 	}
