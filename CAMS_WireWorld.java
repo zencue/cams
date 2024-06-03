@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package cams;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -37,40 +39,20 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        wwHomeBtn = new javax.swing.JButton();
+        
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        wwHomeBtn.setText("HOME");
-        wwHomeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wwHomeBtnActionPerformed(evt);
-            }
-        });
-
-        JToolBar toolbar = new JToolBar();
         
         map = new Cell[100][100];
 
-        //either need to be able to implement the toolbar into the WireWorld plane so that we can add functionality in the plane itself
-        //or create methods inside the plane which we can call here so that the buttons can do those specific applications here
-        //need to make sure that no JFrame event listeners are inside these methods as the event listeners in this class would override it 
         plane = new WireworldPlane(map.length, map[0].length, map, this);
-
+        
         plane.setVisible(true);
         add(plane, BorderLayout.CENTER);
-        
-        //there is a bug with the toolbar itself, the event listener for the key input won't work when the WireWorld plane originally appears with the toolbar, however, once you 
-        //seperate it, the evenet listener works again as seperate entities and then you are able to put down a source wire once again.
-        toolbar.setRollover(true);
-        toolbar.add(wwHomeBtn);
-        
-        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
-        
-        
-        add(toolbar, BorderLayout.PAGE_START);
+
 
         pack();
-
+        plane.setFocusable(true);
         setSize(1000, 800);
         setTitle("Application");
         
@@ -79,7 +61,7 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
 
     }// </editor-fold>//GEN-END:initComponents
 
-    private void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
+    public void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
 
         main.setVisible(true);
         this.setVisible(false);
