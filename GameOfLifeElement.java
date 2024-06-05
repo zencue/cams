@@ -33,50 +33,50 @@ public class GameOfLifeElement extends Element{
         if(y+1 >= 100){
             
         }else{
-            neighbours.add(x);
-            neighbours.add(y+1);
+            neighbours.add(this.x);
+            neighbours.add((this.y)+1);
         }
         if(y+1 >= 100 || x+1 >= 100){
             
         }else{
-        neighbours.add(x+1);
-        neighbours.add(y+1);
+        neighbours.add((this.x)+1);
+        neighbours.add((this.y)+1);
         }
         if(x+1 >= 100){
             
         }else{
-        neighbours.add(x+1);
-        neighbours.add(y);
+        neighbours.add((this.x)+1);
+        neighbours.add(this.y);
         }
         if(x+1 >= 100 || y-1 < 0){
             
         }else{
-        neighbours.add(x+1);
-        neighbours.add(y-1);
+        neighbours.add((this.x)+1);
+        neighbours.add((this.y)-1);
         }
         if(y-1 < 0){
             
         }else{
-        neighbours.add(x);
-        neighbours.add(y-1);
+        neighbours.add(this.x);
+        neighbours.add((this.y)-1);
         }
         if(x-1 < 0 || y-1 < 0){
             
         }else{
-            neighbours.add(x-1);
-            neighbours.add(y-1);  
+            neighbours.add((this.x)-1);
+            neighbours.add((this.y)-1);  
         }
         if(x-1 < 0){
             
         }else{
-            neighbours.add(x-1);
-            neighbours.add(y);
+            neighbours.add((this.x)-1);
+            neighbours.add(this.y);
         }
         if(x-1 < 0 || y+1 >= 100){
             
         }else{
-        neighbours.add(x-1);
-        neighbours.add(y+1);
+        neighbours.add((this.x)-1);
+        neighbours.add((this.y)+1);
         }
         this.alive = isAlive;
         if(isAlive){
@@ -84,31 +84,34 @@ public class GameOfLifeElement extends Element{
         }else{
             parent.setBackground(Color.white);
         }
+        
     }
     
    
     
     public int aliveNeighbours(){
+        
         int numAliveNbs = 0;
         
             for(int k = 0; k < neighbours.size(); k+=2){
-
-                if(plane.map[neighbours.get(k)][neighbours.get(k+1)].getElement() == null ||
-                        ((GameOfLifeElement)(plane.map[neighbours.get(k)][neighbours.get(k+1)].getElement())).getAlive() == false){
+                Cell neighbour = plane.map[neighbours.get(k)][neighbours.get(k+1)];
+                if(neighbour.getElement() == null || ((GameOfLifeElement)(neighbour.getElement())).getAlive() == false){
            
-        }else{
-                  
-            numAliveNbs++;
-        }
+                }else{
+
+                    numAliveNbs+=1;
+
+                }
             }
         
         
         return numAliveNbs;
     }
+    
     public void setAlive(boolean alive){
         this.alive = alive;
         if(alive){
-        parent.setBackground(Color.black);
+            parent.setBackground(Color.black);
         }else{
             parent.setBackground(Color.white);
         }
@@ -130,7 +133,13 @@ public class GameOfLifeElement extends Element{
             
             return false;
             // if its dead has 3 alive neighbours it is alive
-        }else if(this.getAlive() == false && proof == 3){
+        }
+        else if(this.getAlive() == true && (proof ==3 || proof ==2)){
+            
+            return true;
+            // if its dead has 3 alive neighbours it is alive
+        }
+        else if(this.getAlive() == false && proof == 3){
             
             return true;
             // if its null and has 3 alive neighbours it becomes alive
