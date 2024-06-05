@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -123,8 +125,27 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         
         playAndPauseBtn = new javax.swing.JButton();
         
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).saveConfig();
+            }
+        });
+        JButton readButton = new JButton("Read");
+        readButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	JFileChooser f = new JFileChooser();
+            	
+                f.showSaveDialog(null);
+                f.setControlButtonsAreShown(true);
+                System.out.println(f.getSelectedFile());
+                ((WireworldPlane)plane).readConfig(f.getSelectedFile().getPath());
+            }
+        });
         
-        BufferedImage playAndPauseIcon = ImageIO.read(new File("src/cams/PlayAndPause.png"));
+        BufferedImage playAndPauseIcon = ImageIO.read(new File("src/PlayAndPause.png"));
         Image playAndPauseImage = playAndPauseIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         
         playAndPauseBtn.setIcon(new ImageIcon(playAndPauseImage));
@@ -144,8 +165,11 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         
         
         
-        toolbar.setRollover(true);
-        
+//        toolbar.setRollover(true);
+        toolbar.add(readButton);
+        toolbar.addSeparator(new Dimension(50, 50));
+        toolbar.add(saveButton);
+        toolbar.addSeparator(new Dimension(50, 50));
         toolbar.add(wwHomeBtn);
         toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
         toolbar.add(deleteWireBtn);
@@ -162,18 +186,19 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         toolbar.addSeparator(new Dimension(100, 100)); //Creates a seperation line between the button and the toolbar
         toolbar.add(playAndPauseBtn);
         
-        toolbar.setFocusable(rootPaneCheckingEnabled);
+        toolbar.setFocusable(false);
         
         add(toolbar, BorderLayout.PAGE_START);
         
 
         pack();
-
+        plane.setFocusable(true);
         setSize(1000, 800);
         setTitle("Application");
         
 
-        setLocationRelativeTo(null);
+        
+        
 
     }// </editor-fold>//GEN-END:initComponents
 
