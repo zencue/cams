@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 public abstract class Plane extends JPanel implements Runnable{
 	private JPanel plane;//JPanel value of the actual plane
 	protected JFrame main;//JFrame which plane was created from
-	private int width;//width of the grid plane
-	private int height;//height of the grid plane
+	protected int width;//width of the grid plane
+	protected int height;//height of the grid plane
 	private Thread animator;
 	private final int DELAY  = 1000;//variable which measure the length of the delay
 	protected Cell[][] map;//the array of the instance of class Cell
