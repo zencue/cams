@@ -1,25 +1,37 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public abstract class Plane extends JPanel implements Runnable{
-	private JPanel plane;
-	protected JFrame main;
-	private int width;
-	private int height;
+	private JPanel plane;//JPanel value of the actual plane
+	protected JFrame main;//JFrame which plane was created from
+	private int width;//width of the grid plane
+	private int height;//height of the grid plane
 	private Thread animator;
-	private final int DELAY  = 1000;
-	protected Cell[][] map;
-	
+	private final int DELAY  = 1000;//variable which measure the length of the delay
+	protected Cell[][] map;//the array of the instance of class Cell
+	/**
+	 * Constructor of the Plane class
+	 * @param:int width - the width of grid(number of cells in the width)
+	 * @param:int height - the height of grid(number of cells in the height)
+	 * @param:Cell[][] map -  array of the cells 
+	 * @param:JFrame main - main JFrame class
+	 */
 	public Plane(int width,int height,Cell[][] map,JFrame main) {
 		super();
 		this.main = main;
@@ -29,39 +41,17 @@ public abstract class Plane extends JPanel implements Runnable{
 		
 		
 	}
+	/**
+	 * Accessor of the main variable;
+	 * @return: JFrame main
+	 */
 	public JFrame getMain() {
 		return main;
 	}
-	
-	protected MouseAdapter panelMove(JPanel jpanel) {
-		return new MouseAdapter() {
-			@Override
-            public void mouseClicked(MouseEvent e) {
-            		
-            	
-            	
-                
-            }
-            
-            @Override
-            public void mousePressed(MouseEvent e) {
-            	System.out.println(e.getID());
-            	
-            	
-            }
-            @Override
-            public void mouseMoved(MouseEvent e) {
-            	
-            	System.out.println(e.getID());
-            	
-            }
-            @Override 
-            public void mouseReleased(MouseEvent e) {
-            	
-            }
-		};
-	}
-	
+	/**
+	 * Method which creates the peer of the canvas. This peer allows you to change the user interface of the canvas without changing its functionality.
+	 * @return: none
+	 */
 	@Override
     public void addNotify() {
         super.addNotify();
@@ -73,24 +63,28 @@ public abstract class Plane extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		
-		long beforeTime,timeDiff,sleep;
-		beforeTime = System.currentTimeMillis();
-		while(true) {
-			main.repaint();
-			timeDiff = System.currentTimeMillis() - beforeTime;
-			sleep = DELAY - timeDiff;
-			if(sleep<0) {
+		long beforeTime,timeDiff,sleep;//declaring all necessary methods
+		beforeTime = System.currentTimeMillis();//saving current time
+		while(true) {//Infinite loop
+			main.repaint();//repainting main JFrame
+			timeDiff = System.currentTimeMillis() - beforeTime;//calculating time difference between before time and current one
+			sleep = DELAY - timeDiff;//setting sleep value based on difference between delay and timedifference
+			if(sleep<0) {//setting minimum sleep value
 				sleep = 2;
 			}
 			try {
-				Thread.sleep(sleep);
+				Thread.sleep(sleep);//sleeping the loop for sleep's value
 			}
 			catch(Exception e) {
 				
 			}
-			beforeTime = System.currentTimeMillis();
+			beforeTime = System.currentTimeMillis();//resaving current time
 		}
 	}
+	/**
+	 * Accessor of the array of cell instances
+	 * @return: Cell[][] map - array of the cells
+	 */
 	public Cell[][] getMap(){
 		return map;
 	}
