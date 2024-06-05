@@ -67,8 +67,17 @@ public class GameOfLifePlane extends Plane {
 		            @Override
 		            public void mouseEntered(MouseEvent e) {
                                 if(isPressed){
-                                   GameOfLifeElement current = new GameOfLifeElement(e.getX(), e.getY(), planeItSelf, cell, true);
-                                    cell.addElement(current); 
+                                   int position[] = cell.getPos();
+                                if( ((GameOfLifeElement)(cell.getElement())).checkAlive() == false ||
+                                        ((GameOfLifeElement)(cell.getElement())) == null){
+                                    GameOfLifeElement el = new GameOfLifeElement(position[0], position[1], planeItSelf, cell, true);
+                                    cell.addElement(el);
+                                    
+                                	                
+		            }else if(((GameOfLifeElement)(cell.getElement())).checkAlive() == true){
+                                    cell.setBackground(Color.red);
+                                    cell.setElement(null);
+                                } 
                                 }
                                 
 		            }
@@ -89,7 +98,7 @@ public class GameOfLifePlane extends Plane {
 	@Override
 	public void paintComponent(Graphics g) {
             // make a new map that is same as the one we currently have
-            Cell[][] newMap = map.clone();
+            Cell[][] newMap = new Cell[map.length][map[0].length];
             // runthrough the length of the map array
             for(int i = 0; i < map[0].length; i++){
                 // run through the components
@@ -98,20 +107,24 @@ public class GameOfLifePlane extends Plane {
                     GameOfLifeElement el = (GameOfLifeElement)map[i][j].getElement();
                     // if its null
                     if(el == null){
+                        
                         // make el a new element that is dead
                         el = new GameOfLifeElement(i, j, this, map[i][j], false);
                         // add it to the map
                         map[i][j].addElement(el);
                     }
+                    if(newMap[i][j] == null){
+                        newMap[i][j] = new Cell(this,j,i);
+                    }
                     // if element is alive
                     if(el.checkAlive() == true){
                         // add it to the new map
-                        GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, newMap[i][j], true);
+                        GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, map[i][j], true);
                         
                         
                         newMap[i][j].addElement(newEl);
                     }else{
-                        GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, newMap[i][j], false);
+                        GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, map[i][j], false);
                         
                         
                         newMap[i][j].addElement(newEl);
@@ -126,10 +139,9 @@ public class GameOfLifePlane extends Plane {
                 }
             }
             // make the current map the new map
-            this.map = newMap;
+//            this.map = newMap;
 		
 	
 	}
 	
     }
-
