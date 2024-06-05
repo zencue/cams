@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -25,7 +24,7 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
 
     public Cell[][] map;
 
-    public CAMS_WireWorld(CAMS_Mainframe m) {
+    public CAMS_WireWorld(CAMS_Mainframe m) throws IOException {
         initComponents();
         main = m;
 
@@ -38,21 +37,138 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws IOException {
+        
         
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        //there is a bug with the toolbar itself, the event listener for the key input won't work when the WireWorld plane originally appears with the toolbar, however, once you 
+        //seperate it, the evenet listener works again as seperate entities and then you are able to put down a source wire once again.
+        JToolBar toolbar = new JToolBar();
         
         map = new Cell[100][100];
 
+        //either need to be able to implement the toolbar into the WireWorld plane so that we can add functionality in the plane itself
+        //or create methods inside the plane which we can call here so that the buttons can do those specific applications here
+        //need to make sure that no JFrame event listeners are inside these methods as the event listeners in this class would override it 
         plane = new WireworldPlane(map.length, map[0].length, map, this);
+        
+        wwHomeBtn = new javax.swing.JButton();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        wwHomeBtn.setText("HOME");
+        wwHomeBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
+            wwHomeBtnActionPerformed(evt);
+        });
+        
+        deleteWireBtn = new javax.swing.JButton();
+
+        deleteWireBtn.setText("Delete Wire");
+        deleteWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setDeleteWire(evt);
+            }
+        });
+        
+        basicWireBtn = new javax.swing.JButton();
+
+        basicWireBtn.setText("Wire");
+        basicWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setBasicWire(evt);
+            }
+        });
+        
+        sourceWireBtn = new javax.swing.JButton();
+
+        sourceWireBtn.setText("Source");
+        sourceWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setSourceWire(evt);
+            }
+        });
+        
+        orWireBtn = new javax.swing.JButton();
+
+        orWireBtn.setText("OR operand");
+        orWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setORWire(evt);
+            }
+        });
+        
+        andWireBtn = new javax.swing.JButton();
+
+        andWireBtn.setText("AND operand");
+        andWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setANDWire(evt);
+            }
+        });
+        
+        xorWireBtn = new javax.swing.JButton();
+
+        xorWireBtn.setText("XOR operand");
+        xorWireBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).setXORWire(evt);
+            }
+        });
+        
+        playAndPauseBtn = new javax.swing.JButton();
+        
+        
+        BufferedImage playAndPauseIcon = ImageIO.read(new File("src/cams/PlayAndPause.png"));
+        Image playAndPauseImage = playAndPauseIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        
+        playAndPauseBtn.setIcon(new ImageIcon(playAndPauseImage));
+        playAndPauseBtn.setText("PLAY/PAUSE");
+        playAndPauseBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        playAndPauseBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        playAndPauseBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((WireworldPlane)plane).playOrPauseWireWorld(evt);
+            }
+        });
+        
         
         plane.setVisible(true);
         add(plane, BorderLayout.CENTER);
-
+        
+        
+        
+        toolbar.setRollover(true);
+        
+        toolbar.add(wwHomeBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(deleteWireBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(basicWireBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(sourceWireBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(orWireBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(andWireBtn);
+        toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(xorWireBtn);
+        toolbar.addSeparator(new Dimension(100, 100)); //Creates a seperation line between the button and the toolbar
+        toolbar.add(playAndPauseBtn);
+        
+        toolbar.setFocusable(rootPaneCheckingEnabled);
+        
+        add(toolbar, BorderLayout.PAGE_START);
+        
 
         pack();
-        plane.setFocusable(true);
+
         setSize(1000, 800);
         setTitle("Application");
         
@@ -61,7 +177,7 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
 
     }// </editor-fold>//GEN-END:initComponents
 
-    public void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
+    private void wwHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wwHomeBtnActionPerformed
 
         main.setVisible(true);
         this.setVisible(false);
@@ -69,5 +185,12 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton wwHomeBtn;
+    private javax.swing.JButton deleteWireBtn;
+    private javax.swing.JButton basicWireBtn;
+    private javax.swing.JButton sourceWireBtn;
+    private javax.swing.JButton orWireBtn;
+    private javax.swing.JButton andWireBtn;
+    private javax.swing.JButton xorWireBtn;
+    private javax.swing.JButton playAndPauseBtn;
     // End of variables declaration//GEN-END:variables
 }
