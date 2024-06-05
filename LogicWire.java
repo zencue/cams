@@ -1,8 +1,12 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 public abstract class LogicWire extends Wire{
 	protected int[] direction;
+	protected ImageIcon img;
 	public LogicWire(int x, int y, Cell parent, Color color, int[] direction) {
 		super(x, y, parent, color);
 		this.direction = direction;
@@ -48,11 +52,30 @@ public abstract class LogicWire extends Wire{
 	public boolean doesContainElectrons() {
 		return electrons.size() != 0;
 	}
-
+	public ImageIcon getImg() {
+		return img;
+	}
 	@Override
 	public ArrayList<Electron> getElectrons() {
 		return electrons;
 		
+	}
+	public int getDirection() {
+		int a1 = direction[0];
+		int a2 = direction[1];
+		if(a1 == 1 && a2 == 0) {
+			return 0;
+		}
+		else if(a1 == 0 && a2 == -1) {
+			return 1;
+		}
+		else if(a1 == -1 && a2 == 0) {
+			return 2;
+		}
+		else if(a1 == 0 && a2 == -1) {
+			return 3;
+		}
+		return -1;
 	}
 
 }
