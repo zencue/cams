@@ -27,6 +27,7 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
     public Cell[][] map;
 
     public CAMS_WireWorld(CAMS_Mainframe m) throws IOException {
+    	
         initComponents();
         main = m;
 
@@ -61,6 +62,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         wwHomeBtn.setText("HOME");
         wwHomeBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
             wwHomeBtnActionPerformed(evt);
+            plane.requestFocusInWindow();
+            plane.setFocusable(true);
         });
         
         deleteWireBtn = new javax.swing.JButton();
@@ -70,6 +73,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setDeleteWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -80,6 +85,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setBasicWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -90,6 +97,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setSourceWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -100,6 +109,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setORWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -110,6 +121,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setANDWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -120,6 +133,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).setXORWire(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -129,7 +144,10 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
                 ((WireworldPlane)plane).saveConfig();
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         JButton readButton = new JButton("Read");
@@ -140,8 +158,9 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             	
                 f.showSaveDialog(null);
                 f.setControlButtonsAreShown(true);
-                System.out.println(f.getSelectedFile());
                 ((WireworldPlane)plane).readConfig(f.getSelectedFile().getPath());
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -156,6 +175,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ((WireworldPlane)plane).playOrPauseWireWorld(evt);
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
             }
         });
         
@@ -189,9 +210,12 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         toolbar.setFocusable(false);
         
         add(toolbar, BorderLayout.PAGE_START);
-        
+        System.out.println(plane.requestFocusInWindow());
+        plane.setFocusable(true);
 
         pack();
+        
+        System.out.println();
         plane.setFocusable(true);
         setSize(1000, 800);
         setTitle("Application");
