@@ -12,6 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -29,8 +32,8 @@ public class WireworldPlane extends Plane {
     private static int currentWireType;//the index of the type of the wire, to indicate whic hwire user wnat to use
     private JPanel plane;
     private int[] speed;//direction, which user chose to put logci wires
-    private boolean isPressed;// variables which check if mouse is pressed
-    private boolean isStopped;
+    private boolean isPressed;// variable which check if mouse is pressed
+    private boolean isStopped;//variable which checks if program is stopped
 
     /**
      * Constructor of the WireworldPlane class
@@ -87,7 +90,7 @@ public class WireworldPlane extends Plane {
                     		isPressed = true;//setting isPressed tru
                         	int x = cell.getPos()[0];//x of the cell in the map
                     		int y = cell.getPos()[1];//y of the cell in the map
-                    		
+                    			
                     			Element wire = null;//declaring wire
                         		if(WireworldPlane.getCurrentWireType() == 1) {//putting basic wire
                         			cell.removeElement();
@@ -101,19 +104,19 @@ public class WireworldPlane extends Plane {
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 3) {//putting OR wire
                         			cell.removeElement();
-                        			wire = new ORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			wire = new ORWire(x,y,cell,getDirection());
                         			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 4) {//putting AND wire
                         			cell.removeElement();
-                        			wire = new ANDWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			wire = new ANDWire(x,y,cell,getDirection());
                         			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 5) {//putting XOR wire
                         			cell.removeElement();
-                        			wire = new XORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			wire = new XORWire(x,y,cell,getDirection());
                         			
                         			cell.addElement(wire);
                         		}
@@ -151,19 +154,19 @@ public class WireworldPlane extends Plane {
         	            		}
         	            		else if(WireworldPlane.getCurrentWireType() == 3) {
         	            			cell.removeElement();
-        	            			wire = new ORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			wire = new ORWire(x,y,cell,getDirection());
         	            			
         	            			cell.addElement(wire);
         	            		}
         	            		else if(WireworldPlane.getCurrentWireType() == 4) {
         	            			cell.removeElement();
-        	            			wire = new ANDWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			wire = new ANDWire(x,y,cell,getDirection());
         	            			
         	            			cell.addElement(wire);
         	            		}
         	            		else if(WireworldPlane.getCurrentWireType() == 5) {
         	            			cell.removeElement();
-        	            			wire = new XORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			wire = new XORWire(x,y,cell,getDirection());
         	            			
         	            			cell.addElement(wire);
         	            		}
@@ -203,12 +206,12 @@ public class WireworldPlane extends Plane {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println(e);
+				
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(e);
+				
 				if(e.getKeyCode() == 39) {
 					speed = new int[] {1,0};
 				}
@@ -398,13 +401,24 @@ public class WireworldPlane extends Plane {
         				numMap[i][j] = 0;
         			}
         		}
-        		ObjectOutputStream out = new ObjectOutputStream(
-            		    new FileOutputStream("config.ser")
-            		);
-            	out.writeObject(numMap);
-            	out.flush();
-            	out.close();
+        		
         	}
+        	String fileName = "config1";
+    		
+        	
+        	int index = 1;
+    		while(Files.exists(Paths.get(fileName+".ser"))) {
+    			
+        		index+=1;
+        		fileName = fileName.substring(0,6)+Integer.toString(index);
+    		}
+    		
+    		ObjectOutputStream out = new ObjectOutputStream(
+        		    new FileOutputStream(fileName+".ser")
+        		);
+        	out.writeObject(numMap);
+        	out.flush();
+        	out.close();
     	}
     	catch(IOException e){
     		System.out.println(e);
