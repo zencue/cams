@@ -75,15 +75,128 @@ public class WireworldPlane extends Plane {
                 Cell cell = new Cell(this, j, i);//creating new cell
                 map[j][i] = cell;// putting in the map
                 plane.add(cell);//adding in the plane
-
+                cell.addMouseListener(new MouseAdapter() {//setting mouse listener, to check if cell is clicked
+        			boolean status;
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                    }
+                    
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                    	if(e.getButton() == 1){
+                    		isPressed = true;//setting isPressed tru
+                        	int x = cell.getPos()[0];//x of the cell in the map
+                    		int y = cell.getPos()[1];//y of the cell in the map
+                    		
+                    			Element wire = null;//declaring wire
+                        		if(WireworldPlane.getCurrentWireType() == 1) {//putting basic wire
+                        			cell.removeElement();
+                        			wire = new BasicWire(x,y,cell);
+                        			cell.addElement(wire);
+                        		}
+                        		else if(WireworldPlane.getCurrentWireType() == 2) {//putting source wire
+                        			cell.removeElement();
+                        			wire = new SourceWire(x,y,cell);
+                        			cell.addElement(wire);
+                        		}
+                        		else if(WireworldPlane.getCurrentWireType() == 3) {//putting OR wire
+                        			cell.removeElement();
+                        			wire = new ORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			
+                        			cell.addElement(wire);
+                        		}
+                        		else if(WireworldPlane.getCurrentWireType() == 4) {//putting AND wire
+                        			cell.removeElement();
+                        			wire = new ANDWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			
+                        			cell.addElement(wire);
+                        		}
+                        		else if(WireworldPlane.getCurrentWireType() == 5) {//putting XOR wire
+                        			cell.removeElement();
+                        			wire = new XORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+                        			
+                        			cell.addElement(wire);
+                        		}
+                        		else if(WireworldPlane.getCurrentWireType() == 0) {//removing wire
+                        			
+                        			cell.removeElement();
+                        		}
+                                
+                                
+                           
+                                plane.revalidate();//updating wire
+                    	}
+                    	
+                		
+                    	
+                    }
+                    
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                    	
+                    	if(isPressed) {//doing the same thing as mousePressed if mouse is still pressed
+                    		int x = cell.getPos()[0];
+                    		int y = cell.getPos()[1];
+                    		
+                    			Element wire = null;  		
+        	            		if(WireworldPlane.getCurrentWireType() == 1) {
+        	            			cell.removeElement();
+        	            			wire = new BasicWire(x,y,cell);
+        	            			cell.addElement(wire);
+        	            		}
+        	            		else if(WireworldPlane.getCurrentWireType() == 2) {
+        	            			cell.removeElement();
+        	            			wire = new SourceWire(x,y,cell);
+        	            			cell.addElement(wire);
+        	            		}
+        	            		else if(WireworldPlane.getCurrentWireType() == 3) {
+        	            			cell.removeElement();
+        	            			wire = new ORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			
+        	            			cell.addElement(wire);
+        	            		}
+        	            		else if(WireworldPlane.getCurrentWireType() == 4) {
+        	            			cell.removeElement();
+        	            			wire = new ANDWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			
+        	            			cell.addElement(wire);
+        	            		}
+        	            		else if(WireworldPlane.getCurrentWireType() == 5) {
+        	            			cell.removeElement();
+        	            			wire = new XORWire(x,y,cell,((WireworldPlane)plane).getDirection());
+        	            			
+        	            			cell.addElement(wire);
+        	            		}
+        	            		else if(WireworldPlane.getCurrentWireType() == 0) {
+        	            			
+        	            			cell.removeElement();
+        	            		}
+        	                    
+        	                    
+        	                    
+        	                    plane.revalidate();
+                    	}
+                    	else if(cell.getElement()==null){//if there is no wires in the cell
+                    		cell.setBackground(Color.WHITE);
+                    	}
+                    	
+                    }
+                    @Override 
+                    public void mouseExited(MouseEvent e) {
+                    	if(!isPressed && cell.getElement()==null) {//showing which wire would be placed if user clicked on the cell
+                    		cell.setBackground(cell.getColor());
+                    	}
+                    }
+                    @Override 
+                    public void mouseReleased(MouseEvent e) {
+                    	isPressed =false;
+                    }
+                });
                 
             }
 
         }
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
-        this.getActionMap().put("up", new DirectionAction());
-        this.getActionMap().put("down", new DirectionAction());
+//           
         add(plane, BorderLayout.CENTER);//putting the Grid plane inside this WireWorld panel
         this.addKeyListener(new KeyListener() {
 
