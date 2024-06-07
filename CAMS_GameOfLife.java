@@ -35,9 +35,7 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     public CAMS_GameOfLife(CAMS_Mainframe m) throws IOException {
         initComponents();
         main = m;
-        Cursor cursor;
-        cursor = Toolkit.getDefaultToolkit().createCustomCursor(new ImageIcon(getClass().getResource("/cams/pointer_scifi_b.png")).getImage(), new Point(), "Custom cursor");
-        setCursor(cursor);
+        
     }
 
     /**
@@ -57,9 +55,44 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         //need to add toolbar to game of life as well, will implement later today
         //does not work properly
         JToolBar toolbar = new JToolBar();
-
         
-
+        speedX4Btn = new javax.swing.JButton();
+        speedX4Btn.setText("4X Speed");
+        speedX4Btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                    ((Plane)plane).speedX4(evt);
+            }
+        });
+        halfSpeedBtn = new javax.swing.JButton();
+        halfSpeedBtn.setText("0.5X Speed");
+        halfSpeedBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((Plane)plane).halfSpeed(evt);
+            }
+        });
+        
+        speedX1Btn = new javax.swing.JButton();
+        speedX1Btn.setText("1X Speed");
+        speedX1Btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                ((Plane)plane).speedX1(evt);
+            }
+        });
+        // inst 2x speed btn
+        speedX2Btn = new javax.swing.JButton();
+        // set text for clarity
+        speedX2Btn.setText("2X Speed");
+        // add action listener
+        speedX2Btn.addActionListener(new ActionListener() {
+        @Override// override action performed reference plan method
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            ((Plane)plane).speedX2(evt);
+    }
+    });
+        
         golHomeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,7 +131,17 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         toolbar.add(playAndPauseBtn);
         toolbar.setRollover(true);
         toolbar.setFocusable(rootPaneCheckingEnabled);
+        // add 2x speed button to toolbar
+        toolbar.add(speedX4Btn);
+        toolbar.add(speedX2Btn);
+        
+        // add 1x speed button to toolbar
 
+        toolbar.add(speedX1Btn);
+        toolbar.add(halfSpeedBtn);
+        
+        
+        // 
         add(toolbar, BorderLayout.PAGE_START);
 
         pack();
@@ -118,6 +161,12 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton golHomeBtn;
     private javax.swing.JButton playAndPauseBtn;
+    // Add button allows user to view GOL in 2x speed
+    private javax.swing.JButton speedX2Btn;
+    // add button for normal speed
+    private javax.swing.JButton speedX1Btn;
+    private javax.swing.JButton halfSpeedBtn;
+    private javax.swing.JButton speedX4Btn;
 
     // End of variables declaration//GEN-END:variables
 }
