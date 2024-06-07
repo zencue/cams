@@ -34,6 +34,9 @@ public class WireworldPlane extends Plane {
     private int[] speed;//direction, which user chose to put logci wires
     private boolean isPressed;// variable which check if mouse is pressed
     private boolean isStopped;//variable which checks if program is stopped
+    private int generation;
+    private int population;
+    private int[][]statistic;
 
     /**
      * Constructor of the WireworldPlane class
@@ -54,6 +57,12 @@ public class WireworldPlane extends Plane {
         initUI(width, height, map);
         speed = new int[]{1, 0};
         isStopped = false;
+        statistic = new int[5][2];
+        statistic[0][0] = 1;
+        statistic[1][0] = 2;
+        statistic[2][0] = 3;
+        statistic[3][0] = 4;
+        statistic[4][0] = 5;
     }
 
     /**
@@ -90,31 +99,59 @@ public class WireworldPlane extends Plane {
                     		isPressed = true;//setting isPressed tru
                         	int x = cell.getPos()[0];//x of the cell in the map
                     		int y = cell.getPos()[1];//y of the cell in the map
-                    			
+                    		int type =-1;
+                			
+                    		if(cell.getElement() instanceof BasicWire) {
+                				type = 1;
+                			}
+                			else if(cell.getElement() instanceof SourceWire) {
+                				type = 2;
+                			}
+                			else if(cell.getElement() instanceof ORWire) {
+                				type = 3;
+                			}
+                			else if(cell.getElement() instanceof ANDWire) {
+                				type = 4;
+                			}
+                			else if(cell.getElement() instanceof XORWire) {
+                				type = 5;
+                			}
                     			Element wire = null;//declaring wire
                         		if(WireworldPlane.getCurrentWireType() == 1) {//putting basic wire
+                        			addWireToStatistic(1,1);
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         			wire = new BasicWire(x,y,cell);
+                        			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 2) {//putting source wire
+                        			addWireToStatistic(2,1);
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         			wire = new SourceWire(x,y,cell);
+                        			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 3) {//putting OR wire
+                        			addWireToStatistic(3,1);
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         			wire = new ORWire(x,y,cell,getDirection());
                         			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 4) {//putting AND wire
+                        			addWireToStatistic(4,1);
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         			wire = new ANDWire(x,y,cell,getDirection());
                         			
                         			cell.addElement(wire);
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 5) {//putting XOR wire
+                        			addWireToStatistic(5,1);
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         			wire = new XORWire(x,y,cell,getDirection());
                         			
@@ -122,6 +159,8 @@ public class WireworldPlane extends Plane {
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 0) {//removing wire
                         			
+                        			
+                        			addWireToStatistic(type,-1);
                         			cell.removeElement();
                         		}
                                 
@@ -142,38 +181,71 @@ public class WireworldPlane extends Plane {
                     		int y = cell.getPos()[1];
                     		
                     			Element wire = null;  		
-        	            		if(WireworldPlane.getCurrentWireType() == 1) {
-        	            			cell.removeElement();
-        	            			wire = new BasicWire(x,y,cell);
-        	            			cell.addElement(wire);
-        	            		}
-        	            		else if(WireworldPlane.getCurrentWireType() == 2) {
-        	            			cell.removeElement();
-        	            			wire = new SourceWire(x,y,cell);
-        	            			cell.addElement(wire);
-        	            		}
-        	            		else if(WireworldPlane.getCurrentWireType() == 3) {
-        	            			cell.removeElement();
-        	            			wire = new ORWire(x,y,cell,getDirection());
-        	            			
-        	            			cell.addElement(wire);
-        	            		}
-        	            		else if(WireworldPlane.getCurrentWireType() == 4) {
-        	            			cell.removeElement();
-        	            			wire = new ANDWire(x,y,cell,getDirection());
-        	            			
-        	            			cell.addElement(wire);
-        	            		}
-        	            		else if(WireworldPlane.getCurrentWireType() == 5) {
-        	            			cell.removeElement();
-        	            			wire = new XORWire(x,y,cell,getDirection());
-        	            			
-        	            			cell.addElement(wire);
-        	            		}
-        	            		else if(WireworldPlane.getCurrentWireType() == 0) {
-        	            			
-        	            			cell.removeElement();
-        	            		}
+                    			int type =-1;
+                    			
+                        		if(cell.getElement() instanceof BasicWire) {
+                    				type = 1;
+                    			}
+                    			else if(cell.getElement() instanceof SourceWire) {
+                    				type = 2;
+                    			}
+                    			else if(cell.getElement() instanceof ORWire) {
+                    				type = 3;
+                    			}
+                    			else if(cell.getElement() instanceof ANDWire) {
+                    				type = 4;
+                    			}
+                    			else if(cell.getElement() instanceof XORWire) {
+                    				type = 5;
+                    			}
+                        			
+                            		if(WireworldPlane.getCurrentWireType() == 1) {//putting basic wire
+                            			addWireToStatistic(1,1);
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            			wire = new BasicWire(x,y,cell);
+                            			
+                            			cell.addElement(wire);
+                            		}
+                            		else if(WireworldPlane.getCurrentWireType() == 2) {//putting source wire
+                            			addWireToStatistic(2,1);
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            			wire = new SourceWire(x,y,cell);
+                            			
+                            			cell.addElement(wire);
+                            		}
+                            		else if(WireworldPlane.getCurrentWireType() == 3) {//putting OR wire
+                            			addWireToStatistic(3,1);
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            			wire = new ORWire(x,y,cell,getDirection());
+                            			
+                            			cell.addElement(wire);
+                            		}
+                            		else if(WireworldPlane.getCurrentWireType() == 4) {//putting AND wire
+                            			addWireToStatistic(4,1);
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            			wire = new ANDWire(x,y,cell,getDirection());
+                            			
+                            			cell.addElement(wire);
+                            		}
+                            		else if(WireworldPlane.getCurrentWireType() == 5) {//putting XOR wire
+                            			addWireToStatistic(5,1);
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            			wire = new XORWire(x,y,cell,getDirection());
+                            			
+                            			cell.addElement(wire);
+                            		}
+                            		else if(WireworldPlane.getCurrentWireType() == 0) {//removing wire
+                            			
+                            			
+                            			addWireToStatistic(type,-1);
+                            			cell.removeElement();
+                            		}
+                                    
         	                    
         	                    
         	                    
@@ -248,6 +320,7 @@ public class WireworldPlane extends Plane {
     public void paintComponent(Graphics g) {
         ArrayList<ArrayList> aliveElectrons = new ArrayList<ArrayList>();//electrons which are alive after cheking all specific cases
         if (!isStopped) {
+        	generation+=1;
             for (int i = 0; i < electrons.size(); i++) {//going through all electrons
                 Electron el = electrons.get(i);
                 int[] pos = el.getPos();
@@ -293,7 +366,12 @@ public class WireworldPlane extends Plane {
             for (int i = 0; i < logicWires.size(); i++) {
                 logicWires.get(i).logicChecking();
             }
-
+            mergeSort(0,statistic.length-1);
+            population = 0;
+            for(int i = 0;i<statistic.length;i++) {
+            	population +=statistic[i][1];
+            }
+            
         }
     }
 
@@ -490,5 +568,84 @@ public class WireworldPlane extends Plane {
     		System.out.println(e);
     	}
     }
-
+    /**
+     * The method which sort the array using merge sort
+     * @parameter: int l; - the index of the left bound
+     * @parameter: int r - the index of the right bound
+     * @return: none
+     */
+    private  void mergeSort(int l,int r){
+        if(l<r){//base case
+            
+            int m = l+(r-l)/2;//middle index
+            mergeSort(l,m);//the same partition for the left part
+            mergeSort(m+1,r);//the same partition of the right part
+            
+            merge(l,m,r);
+            
+            
+        }
+    }
+    /**
+     * The method which merge the sort in ascending order
+     * @parameter: int l; - the index of the left bound
+     * @parameter: int m - the middle index;
+     * @parameter: int r - the index of the right bound
+     * @return: none
+     */
+    private  void merge(int l,int m,int r){
+        int n1 = m-l+1;//length of the left part
+        int n2 = r-m;//length of the right part
+        int[][] L = new int[n1][2];//left part
+        int[][] R = new int[n2][2];//right part
+        for(int i =0;i<n1;i++){//copy left part
+            
+            L[i] = statistic[l+i];
+        }
+        for(int i =0;i<n2;i++){//copy right part
+            
+            R[i] = statistic[m+1+i];
+        }
+        
+        int i=0;//index of left part
+        int j =0;//index of right part
+        int k =l;// index of the next element
+        while(i<n1&& j<n2){// until we achieve last element of one of the parts
+            
+         // checking which is smaller from the each parts
+            if((L[i][1]>=R[j][1])){
+                statistic[k] = L[i];// put in the array from the left part
+                i++;// increasing id
+            }
+            else{
+                statistic[k] = R[j];// put in the array from the right part
+                j++;
+            }
+            k++;//next element
+        }
+        
+        //fill the array with remained elements from left part
+        while((i<n1)){
+            
+            statistic[k] =  L[i];
+            i++;
+            k++;
+            
+        }
+        //fill the array with the remained elements from the right part
+        while((j<n2)){
+            
+            statistic[k] =  R[j];
+            j++;
+            k++;
+        }
+    }
+    private void addWireToStatistic(int type,int add) {
+    	for(int i=0;i<statistic.length;i++) {
+    		if(statistic[i][0] == type) {
+    			statistic[i][1] = statistic[i][1]+add;
+    			break;
+    		}
+    	}
+    }
 }
