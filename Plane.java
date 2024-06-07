@@ -1,4 +1,4 @@
-
+package cams;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,7 +22,7 @@ public abstract class Plane extends JPanel implements Runnable {
     private int width;
     private int height;
     private Thread animator;
-    private final int DELAY = 500;
+    private int DELAY = 500;
     protected Cell[][] map;
 
     public Plane(int width, int height, Cell[][] map, JFrame main) {
@@ -42,7 +42,19 @@ public abstract class Plane extends JPanel implements Runnable {
     public void playOrPause(java.awt.event.ActionEvent evt) {
         isStopped = !isStopped;
     }
-
+    // allows user to set speed to 2x
+    public void speedX2(java.awt.event.ActionEvent evt) {
+        DELAY = 250;
+    }
+    public void speedX1(java.awt.event.ActionEvent evt) {
+        DELAY = 500;
+    }
+    public void halfSpeed(java.awt.event.ActionEvent evt){
+    DELAY = 1000;
+    }
+    public void speedX4(java.awt.event.ActionEvent evt) {
+        DELAY = 125;
+    }
     protected MouseAdapter panelMove(JPanel jpanel) {
         return new MouseAdapter() {
             @Override
