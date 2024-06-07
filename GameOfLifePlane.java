@@ -7,10 +7,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.MouseInfo;
 import java.awt.event.MouseAdapter;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -97,7 +100,8 @@ public class GameOfLifePlane extends Plane {
     }
 	@Override
 	public void paintComponent(Graphics g) {
-            // make a new map that is same as the one we currently have
+            if(!isStopped){
+                // make a new map that is same as the one we currently have
             Cell[][] newMap = new Cell[map.length][map[0].length];
             // runthrough the length of the map array
             for(int i = 0; i < map[0].length; i++){
@@ -138,10 +142,80 @@ public class GameOfLifePlane extends Plane {
                     this.map[i][j].addElement(newMap[i][j].getElement());
                 }
             }
+            }
+            
             // make the current map the new map
 //            this.map = newMap;
 		
 	
-	}
+	
+        }
+        public void saveConfig() {
+    	try {
+//    		File config = new File("config.txt");
+//        	boolean status = config.createNewFile();
+        	int[][] numMap = new int[map.length][map[0].length];
+        	
+        	for(int i =0;i<map.length;i++) {
+        		for(int j =0;j<map[0].length;j++) {
+        			Cell cell = map[i][j];
+        			Element el = cell.getElement();
+        			if(((GameOfLifeElement)el).getAlive()) {
+        				numMap[i][j] = 1;
+        			}else{
+                                    numMap[i][j] = 0;
+                                }
+        			
+        		}
+        		ObjectOutputStream out = new ObjectOutputStream(
+            		    new FileOutputStream("config.ser")
+            		);
+            	out.writeObject(numMap);
+            	out.flush();
+            	out.close();
+        	}
+    	}
+    	catch(IOException e){
+    		System.out.println(e);
+    	}
+    }
+        
+    public void readConfig(String path) {
+    	try {
+    	    
+    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(path));
+    		int[][] array = (int[][]) in.readObject();
+    		in.close();
+    		Cell[][] newMap = new Cell[map.length][map[0].length];
+    		
+    		
+    		
+    		for(int i =0;i<map.length;i++) {
+        		for(int j =0;j<map[0].length;j++) {
+        			int type = array[i][j];
+        			Cell cell = map[i][j];
+        			int x = cell.getPos()[0];//x of the cell in the map
+            		int y = cell.getPos()[1];
+        			Element elementa = null;//declaring wire
+        			cell.removeElement();
+        			
+        			if(type == 1) {
+        				elementa = new GameOfLifeElement(i, j, this, cell, true);
+        			}else{
+                                    elementa = new GameOfLifeElement(i, j, this, cell, false);
+                                }
+        			cell.addElement(elementa);
+        			
+        			
+        			
+        		}
+    		}
+    		
+    		plane.revalidate();
+    	}
+    	catch(Exception e){
+    		System.out.println(e);
+    	}
+    }
 	
     }
