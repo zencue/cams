@@ -20,6 +20,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -89,6 +90,37 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         //need to add toolbar to game of life as well, will implement later today
         //does not work properly
         JToolBar toolbar = new JToolBar();
+        numBirths = new javax.swing.JLabel();
+        numDeaths = new javax.swing.JLabel();
+        numAlive = new javax.swing.JLabel();
+        saveBtn = new javax.swing.JButton();
+        saveBtn.setText("Save Game");
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((GameOfLifePlane)plane).saveConfig();
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
+            }
+        });
+        
+        readBtn = new javax.swing.JButton();
+        readBtn.setText("Load Saved Game");
+        readBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JFileChooser f = new JFileChooser();
+            	
+                f.showSaveDialog(null);
+                f.setControlButtonsAreShown(true);
+                ((GameOfLifePlane)plane).readConfig(f.getSelectedFile().getPath());
+                plane.requestFocusInWindow();
+                plane.setFocusable(true);
+                
+            }
+        });
+        
+        
         // make a new button for 4x speed
         speedX4Btn = new javax.swing.JButton();
         // set text
@@ -185,24 +217,8 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         golHomeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        // appropritate image for the home button
-        golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home1.png")));
-
-        //check if mouse is pressed or not on the button
-        golHomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            //different images for whether mouse is pressed on the button
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home2.png")));
-            }
-
-            @Override
-            //back to default image when mouse is not pressed on the button
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home1.png")));
-            }
-        });
+        // appropritate text
+        golHomeBtn.setText("HOME");
         // make play and pause button
         playAndPauseBtn = new javax.swing.JButton();
         // read image file into play and pause icon
@@ -270,6 +286,20 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // add 1x and halfspeed button to toolbar
         toolbar.add(speedX1Btn);
         toolbar.add(halfSpeedBtn);
+        // alive, births, deaths text fields
+        toolbar.addSeparator(new Dimension(25, 50));
+        toolbar.add(numAlive);
+        toolbar.addSeparator(new Dimension(25, 50));
+        toolbar.add(numBirths);
+        toolbar.addSeparator(new Dimension(50, 50));
+        toolbar.add(numDeaths);
+        toolbar.addSeparator(new Dimension(25, 50));
+        toolbar.add(saveBtn);
+        toolbar.addSeparator(new Dimension(25, 50));
+        toolbar.add(readBtn);
+        
+        
+        
 
         
         add(toolbar, BorderLayout.PAGE_START);
@@ -297,6 +327,11 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     private javax.swing.JButton speedX1Btn;
     private javax.swing.JButton halfSpeedBtn;
     private javax.swing.JButton speedX4Btn;
+    public static javax.swing.JLabel numAlive;
+    public static javax.swing.JLabel numBirths;
+    public static javax.swing.JLabel numDeaths;
+    private javax.swing.JButton saveBtn;
+    private javax.swing.JButton readBtn;
 
     // End of variables declaration//GEN-END:variables
 }
