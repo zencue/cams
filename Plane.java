@@ -76,33 +76,6 @@ public abstract class Plane extends JPanel implements Runnable {
         // delay is 1/4 of og delay
         DELAY = 125;
     }
-    protected MouseAdapter panelMove(JPanel jpanel) {
-        return new MouseAdapter() {
-            @Override
-
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println(e.getID());
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-
-                System.out.println(e.getID());
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-        };
-    }
 
     @Override
     public void addNotify() {
