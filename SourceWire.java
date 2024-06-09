@@ -4,21 +4,32 @@ import java.util.ArrayList;
 public class SourceWire extends Wire{
 	private Wire wire;
 	
-	private int finish;
-	private int counter;
-	private final ArrayList<Integer[]> speeds ;
+	private int finish;//variable which detectes when to make electrons
+	private int counter;//variables which changes each time to rach a finish variable
+	private final ArrayList<Integer[]> speeds ;//arraylist of speeds for electrons
+	/**
+	     * Constructor of the SourceWire class
+	     *
+	     * @param:int x- x coordinate of the wire
+	     *@param:int y- y coordinate of the wire
+	     *@param:Cell parent-cell where wires is placed
+	     */
 	public SourceWire(int x, int y,Cell parent) {
 		
 		super(x,y,parent,Color.red);
 		speeds = new ArrayList<Integer[]>();
+
+		//adding speeds in all directions
 		speeds.add(new Integer[] {1,0});
 		speeds.add(new Integer[] {-1,0});
 		speeds.add(new Integer[] {0,1});
 		speeds.add(new Integer[] {0,-1});
 		counter = 5;
 		finish = 5;
+		//adding this sourcewire to array list of all sourcewires
 		WireworldPlane.addSource(this);
 		wire = this;
+		//creating signals
 		createSignals();
 	}
 	public void createSignals() {
