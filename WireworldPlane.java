@@ -34,9 +34,9 @@ public class WireworldPlane extends Plane {
     private int[] speed;//direction, which user chose to put logci wires
     private boolean isPressed;// variable which check if mouse is pressed
     private boolean isStopped;//variable which checks if program is stopped
-    private int generation;
-    private int population;
-    private int[][]statistic;
+    private int generation;//counter of generation
+    private int population;//counter of the population
+    private int[][]statistic;//statistic of he population
 
     /**
      * Constructor of the WireworldPlane class
@@ -55,9 +55,11 @@ public class WireworldPlane extends Plane {
         logicWires = new ArrayList<LogicWire>();
         currentWireType = 1;
         initUI(width, height, map);
-        speed = new int[]{1, 0};
+        speed = new int[]{1, 0};//initial speed
         isStopped = false;
         statistic = new int[5][2];
+
+	//initial statistic
         statistic[0][0] = 1;
         statistic[1][0] = 2;
         statistic[2][0] = 3;
@@ -100,7 +102,7 @@ public class WireworldPlane extends Plane {
                         	int x = cell.getPos()[0];//x of the cell in the map
                     		int y = cell.getPos()[1];//y of the cell in the map
                     		int type =-1;
-                			
+                		//getting type of wire
                     		if(cell.getElement() instanceof BasicWire) {
                 				type = 1;
                 			}
@@ -118,12 +120,14 @@ public class WireworldPlane extends Plane {
                 			}
                     			Element wire = null;//declaring wire
                         		if(WireworldPlane.getCurrentWireType() == 1) {//putting basic wire
-                        			addWireToStatistic(1,1);
-                        			addWireToStatistic(type,-1);
-                        			cell.removeElement();
-                        			wire = new BasicWire(x,y,cell);
+                        			addWireToStatistic(1,1);//adding wire to statistic array
+                        			addWireToStatistic(type,-1);//deleting previous wire from this cell
+                        			cell.removeElement();//remove element from the cell
+                        			wire = new BasicWire(x,y,cell);//new Basic wire
                         			
-                        			cell.addElement(wire);
+                        			cell.addElement(wire);//adding wire to the cell
+
+						//rest else statements work in the same way
                         		}
                         		else if(WireworldPlane.getCurrentWireType() == 2) {//putting source wire
                         			addWireToStatistic(2,1);
@@ -264,7 +268,7 @@ public class WireworldPlane extends Plane {
                     }
                     @Override 
                     public void mouseReleased(MouseEvent e) {
-                    	isPressed =false;
+                    	isPressed =false;//changing isPressed wire
                     }
                 });
                 
@@ -283,7 +287,7 @@ public class WireworldPlane extends Plane {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+				//changing the direction of the plane based on clicked keys
 				if(e.getKeyCode() == 39) {
 					speed = new int[] {1,0};
 				}
@@ -309,7 +313,7 @@ public class WireworldPlane extends Plane {
     }
 
     /**
-     * Method which updates periodically
+     * Method which updates periodically and is used to update plane
      *
      * @param:Graphics g
      *
@@ -320,53 +324,58 @@ public class WireworldPlane extends Plane {
     public void paintComponent(Graphics g) {
         ArrayList<ArrayList> aliveElectrons = new ArrayList<ArrayList>();//electrons which are alive after cheking all specific cases
         if (!isStopped) {
-        	generation+=1;
+        	generation+=1;//new generatiob
             for (int i = 0; i < electrons.size(); i++) {//going through all electrons
-                Electron el = electrons.get(i);
-                int[] pos = el.getPos();
-                boolean status = true;
-                if (status) {
-                    Wire currentWire = (Wire) map[pos[0]][pos[1]].getElement();
-                    if (currentWire != null) {
+                Electron el = electrons.get(i);//getting electron
+                int[] pos = el.getPos();//getting its position
+               
+                    Wire currentWire = (Wire) map[pos[0]][pos[1]].getElement();//getting current wire in the electron's cell
+                    if (currentWire != null) {//removing electrons from previous wire
                         currentWire.removeElectrons();
                     }
-                    el.moveElectron();
-                    pos = electrons.get(i).getPos();
-                    Wire newWire = (Wire) map[pos[0]][pos[1]].getElement();
+                    el.moveElectron();//moving electron
+                    pos = electrons.get(i).getPos();//new position of the electron
+                    Wire newWire = (Wire) map[pos[0]][pos[1]].getElement();//new electron's wire
 
-                    if (newWire == null) {
+                    if (newWire == null) {//if electron's wire doesn't exist removing electron
                         electrons.remove(i);
                         i -= 1;
-                    } else if (newWire.doesContainElectrons()) {
-                        electrons.remove(i);
-                        int counter = 0;
-                        ArrayList<Electron> els = newWire.getElectrons();
+                    } else if (newWire.doesContainElectrons()) {//if there is electrons in the wire
+                        electrons.remove(i);//remove all of them
+                        
+                        ArrayList<Electron> els = newWire.getElectrons();//getting arrylist of electrons
                         for (Electron j : els) {
-                            counter += 1;
-                            electrons.remove(j);
+                            
+                            electrons.remove(j);//removing them
                         }
-                        newWire.removeElectrons();
+                        newWire.removeElectrons();//clering wire
                         i -= 1;
-                    } else {
+                    } else {//otherwise
+			   // adding them in the aliveelectrons
                         ArrayList pair = new ArrayList();
                         pair.add(newWire);
                         pair.add(el);
                         aliveElectrons.add(pair);
                     }
 
-                }
+                
 
             }
+		//putting alive electrons in the newwires
             for (ArrayList i : aliveElectrons) {
                 ((Wire) i.get(0)).addElectron((Electron) i.get(1));
             }
+		//creating electrons from all sources
             for (int i = 0; i < sources.size(); i++) {
                 sources.get(i).createSignals();
             }
+		//checking logic conditions of the logicwires
             for (int i = 0; i < logicWires.size(); i++) {
                 logicWires.get(i).logicChecking();
             }
+		//sorting statistic
             mergeSort(0,statistic.length-1);
+		//calculating population
             population = 0;
             for(int i = 0;i<statistic.length;i++) {
             	population +=statistic[i][1];
@@ -417,7 +426,6 @@ public class WireworldPlane extends Plane {
     public void setXORWire(java.awt.event.ActionEvent evt) {
         currentWireType = 5;
     }
-
     public static void addElectron(Electron electron) {
         electrons.add(electron);
     }
