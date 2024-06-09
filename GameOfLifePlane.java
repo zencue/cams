@@ -28,6 +28,7 @@ public class GameOfLifePlane extends Plane {
     ArrayList<Integer> trackXY = new ArrayList<Integer>();
     private JPanel plane;
     private boolean isPressed;
+    
 
     public GameOfLifePlane(int width, int height, Cell[][] map, JFrame main) {
         super(width, height, map, main);
@@ -79,7 +80,7 @@ public class GameOfLifePlane extends Plane {
                             // the element is red
                             cell.setBackground(Color.red);
                             // and set to null to kill it
-                            cell.setElement(null);
+                            cell.addElement(null);
                         }
 
                     }
@@ -105,7 +106,7 @@ public class GameOfLifePlane extends Plane {
                                 // set color to red and kill it
                                 cell.setBackground(Color.red);
                                 // set to null to kill
-                                cell.setElement(null);
+                                cell.addElement(null);
                             }
                         }
                     }
@@ -124,11 +125,17 @@ public class GameOfLifePlane extends Plane {
 
         }
     }
-
+   
     @Override
     public void paintComponent(Graphics g) {
+        int births = 0;
+        int deaths = 0;
+        int alive = 0;
         // while program is not paused
         if (!isStopped) {
+            births = 0;
+            deaths = 0;
+            alive = 0;
             // make a new map that is same as the one we currently have
             Cell[][] newMap = new Cell[map.length][map[0].length];
             // runthrough the length of the map array
@@ -150,26 +157,42 @@ public class GameOfLifePlane extends Plane {
                     }
                     // if element is alive
                     if (el.checkAlive() == true) {
+                        alive++;
                         // add it to the new map
                         GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, map[i][j], true);
 
                         newMap[i][j].addElement(newEl);
-                    } else {
+                        // if its dead add it to map
+                    }else {
+                        
                         GameOfLifeElement newEl = new GameOfLifeElement(i, j, this, map[i][j], false);
-
+                        
                         newMap[i][j].addElement(newEl);
 
                         // if not dont add it
                     }
+                    if(el.getAlive() == true && el.checkAlive() == false){
+                        ((GameOfLifeElement)el).parent.setBackground(Color.blue);
+                        deaths++;
+                    }
+                    if(el.getAlive() == false && el.checkAlive() == true){
+                        births++;
+                    }
                 }
             }
+            
             for (int i = 0; i < map[0].length; i++) {
                 for (int j = 0; j < map.length; j++) {
                     this.map[i][j].addElement(newMap[i][j].getElement());
                 }
             }
+            CAMS_GameOfLife.numDeaths.setText("Deaths: " + deaths);
+            CAMS_GameOfLife.numBirths.setText("Births: " + births);
+            CAMS_GameOfLife.numAlive.setText("Number Alive: " + alive);
         }
-
+        
+        
+        
         // make the current map the new map
 //            this.map = newMap;
     }
