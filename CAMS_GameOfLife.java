@@ -185,8 +185,24 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         golHomeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // appropritate text
-        golHomeBtn.setText("HOME");
+        
+        // appropritate image for the home button
+        golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home1.png")));
+
+        //check if mouse is pressed or not on the button
+        golHomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            //different images for whether mouse is pressed on the button
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home2.png")));
+            }
+
+            @Override
+            //back to default image when mouse is not pressed on the button
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/home1.png")));
+            }
+        });
         // make play and pause button
         playAndPauseBtn = new javax.swing.JButton();
         // read image file into play and pause icon
