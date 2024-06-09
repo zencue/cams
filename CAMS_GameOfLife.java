@@ -5,16 +5,20 @@ Game of Life frame
 package cams;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,14 +32,42 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
 
     // reference main cuz this is second window
     CAMS_Mainframe main;
+    // jpanel is a plane
     private JPanel plane;
-
+    // make a 2d arrray of cells to hold every element on plane
     public Cell[][] map;
 
     public CAMS_GameOfLife(CAMS_Mainframe m) throws IOException {
         initComponents();
         main = m;
-        
+
+    }
+    // create a clip to hold the audio
+    Clip clip;
+    // inst new audio input stream
+    AudioInputStream audioInputStream;
+    // make file path
+    static String filePath = "src/cams/sound-15.wav";
+
+    // constructor to initialize streams and clip 
+    public void SimpleAudioPlayer()
+            // throw exceptions
+            throws UnsupportedAudioFileException,
+            IOException, LineUnavailableException {
+        // create AudioInputStream object 
+        // get file into audio input stream
+        audioInputStream
+                = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+
+        // create clip reference 
+        clip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip 
+        clip.open(audioInputStream);
+        // loop the clip once so that when SimpleAudioPlayer happens, it is 
+        // played once
+        clip.loop(0);
+
     }
 
     /**
@@ -46,39 +78,86 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() throws IOException {
-
+        // map is 100x100
         map = new Cell[100][100];
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // make the JPanel a game of life plane with width and height dependent
+        // on the map of cells, references the 2d array of cells, references
+        // this as the main frame
         plane = new GameOfLifePlane(map.length, map[0].length, map, this);
         //need to add toolbar to game of life as well, will implement later today
         //does not work properly
         JToolBar toolbar = new JToolBar();
-        
+        // make a new button for 4x speed
         speedX4Btn = new javax.swing.JButton();
+        // set text
         speedX4Btn.setText("4X Speed");
+        // add action listener
         speedX4Btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                    ((Plane)plane).speedX4(evt);
+                // reference the speedX4 event in plane class
+                ((Plane) plane).speedX4(evt);
+                // play sound
+                try {
+                    // call single audio play
+                    SimpleAudioPlayer();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
+        // new button for half speed
         halfSpeedBtn = new javax.swing.JButton();
+        // add text
         halfSpeedBtn.setText("0.5X Speed");
-        halfSpeedBtn.addActionListener(new ActionListener(){
+        // listen for button being depressed
+        halfSpeedBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ((Plane)plane).halfSpeed(evt);
+                // reference halfspeed event in plane (delay set to double 
+                // og delay time)
+                ((Plane) plane).halfSpeed(evt);
+                // play sound
+                try {
+                    // call single audio play
+                    SimpleAudioPlayer();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
-        
+        // make new button for regular speed
         speedX1Btn = new javax.swing.JButton();
+        // appropriate text
         speedX1Btn.setText("1X Speed");
+        // listen for action
         speedX1Btn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                ((Plane)plane).speedX1(evt);
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // when button is clicked reference regular speed method in 
+                // Plane
+                ((Plane) plane).speedX1(evt);
+                // play click sound
+                try {
+                    // call single audio play
+                    SimpleAudioPlayer();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         // inst 2x speed btn
@@ -87,61 +166,96 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         speedX2Btn.setText("2X Speed");
         // add action listener
         speedX2Btn.addActionListener(new ActionListener() {
-        @Override// override action performed reference plan method
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ((Plane)plane).speedX2(evt);
-    }
-    });
-        
+            @Override// override action performed reference plan method
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ((Plane) plane).speedX2(evt);
+                try {
+                    // call single audio play
+                    SimpleAudioPlayer();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        // make go home button
         golHomeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        // appropritate text
         golHomeBtn.setText("HOME");
-        
-
+        // make play and pause button
         playAndPauseBtn = new javax.swing.JButton();
-
+        // read image file into play and pause icon
         BufferedImage playAndPauseIcon = ImageIO.read(new File("src/cams/PlayAndPause.png"));
+        // set size and scale appropriate to button
         Image playAndPauseImage = playAndPauseIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-
+        // set play and pause buton icon
         playAndPauseBtn.setIcon(new ImageIcon(playAndPauseImage));
+        // appropriate text
         playAndPauseBtn.setText("PLAY/PAUSE");
+        // place text in bottom centre of button
         playAndPauseBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         playAndPauseBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        // listen for button action
         playAndPauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // when user clicks play or pause GOL plays or pauses 
                 ((Plane) plane).playOrPause(evt);
+                // try catch thingy
+                try {
+                    // call single audio play
+                    SimpleAudioPlayer();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+        // add plane
+        add(plane, BorderLayout.CENTER);
+        // home button action listener
+        golHomeBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
+            // when pressed the go home action is performed
+            golHomeBtnActionPerformed(evt);
+            // play audio
+            try {
+                // call single audio play
+                SimpleAudioPlayer();
+            } catch (UnsupportedAudioFileException ex) {
+                Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
-
-        add(plane, BorderLayout.CENTER);
-        
-        golHomeBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
-            golHomeBtnActionPerformed(evt);
-        });
-        
-        
-
+        // add toolbar
         toolbar.add(golHomeBtn);
+        // addd a seperator
         toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
-
+        // add play pause btn
         toolbar.add(playAndPauseBtn);
+        // toolbar goes over top of plane
         toolbar.setRollover(true);
         toolbar.setFocusable(rootPaneCheckingEnabled);
-        // add 2x speed button to toolbar
+        // add 4x and 2x speed button to toolbar
         toolbar.add(speedX4Btn);
         toolbar.add(speedX2Btn);
-        
-        // add 1x speed button to toolbar
 
+        // add 1x and halfspeed button to toolbar
         toolbar.add(speedX1Btn);
         toolbar.add(halfSpeedBtn);
+
         
-        
-        // 
         add(toolbar, BorderLayout.PAGE_START);
 
         pack();
@@ -170,5 +284,3 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
 
     // End of variables declaration//GEN-END:variables
 }
-
-
