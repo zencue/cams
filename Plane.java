@@ -38,21 +38,42 @@ public abstract class Plane extends JPanel implements Runnable {
     public JFrame getMain() {
         return main;
     }
-
+    /**
+     * when play or pause event happens is stopped is set to opposite of
+     * current status (play become pause and vice versa)
+     * @param evt often a button being clicked event
+     */
     public void playOrPause(java.awt.event.ActionEvent evt) {
         isStopped = !isStopped;
     }
     // allows user to set speed to 2x
     public void speedX2(java.awt.event.ActionEvent evt) {
+        // set delay to half of regular delay so updates happen 2x as fast
+        // therefore speed is 2x
         DELAY = 250;
     }
+    /**
+     * sets speed to normal, 500 mili delay
+     * @param evt often buton being clicked
+     */
     public void speedX1(java.awt.event.ActionEvent evt) {
+        // delay to og speed
         DELAY = 500;
     }
+    /**
+     * Sets update speed to double the regular resulting in half speed
+     * @param evt button click
+     */
     public void halfSpeed(java.awt.event.ActionEvent evt){
+        // delay 2x regular
     DELAY = 1000;
     }
+    /**
+     * Make program update at 4x speed
+     * @param evt some button clicked event
+     */
     public void speedX4(java.awt.event.ActionEvent evt) {
+        // delay is 1/4 of og delay
         DELAY = 125;
     }
     protected MouseAdapter panelMove(JPanel jpanel) {
