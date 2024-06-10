@@ -112,7 +112,7 @@ public abstract class LogicWire extends Wire{
 		else if(a1 == -1 && a2 == 0) {
 			return 2;
 		}
-		else if(a1 == 0 && a2 == -1) {
+		else if(a1 == 0 && a2 == 1) {
 			return 3;
 		}
 		return -1;
