@@ -5,6 +5,7 @@ Game of Life frame
 package cams;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -94,7 +95,17 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         numDeaths = new javax.swing.JLabel();
         numAlive = new javax.swing.JLabel();
         saveBtn = new javax.swing.JButton();
-        saveBtn.setText("Save Game");
+        saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveNorm.png")));
+        saveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveNorm.png")));
+            }
+        });
         saveBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,9 +114,19 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 plane.setFocusable(true);
             }
         });
-        
+        toolbar.setBackground(new Color(173, 216, 230));
         readBtn = new javax.swing.JButton();
-        readBtn.setText("Load Saved Game");
+        readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readNorm.png")));
+        readBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readNorm.png")));
+            }
+        });
         readBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,11 +145,24 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // make a new button for 4x speed
         speedX4Btn = new javax.swing.JButton();
         // set text
-        speedX4Btn.setText("4X Speed");
+        speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/pixil-frame-0.png")));
+        speedX4Btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/4xspeedDepressed.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/pixil-frame-0.png")));
+            }
+        });
+        
         // add action listener
+        
         speedX4Btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
                 // reference the speedX4 event in plane class
                 ((Plane) plane).speedX4(evt);
                 // play sound
@@ -147,7 +181,17 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // new button for half speed
         halfSpeedBtn = new javax.swing.JButton();
         // add text
-        halfSpeedBtn.setText("0.5X Speed");
+        halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedNorm.png")));
+        halfSpeedBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedNorm.png")));
+            }
+        });
         // listen for button being depressed
         halfSpeedBtn.addActionListener(new ActionListener() {
             @Override
@@ -171,7 +215,17 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // make new button for regular speed
         speedX1Btn = new javax.swing.JButton();
         // appropriate text
-        speedX1Btn.setText("1X Speed");
+        speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedNorm.png")));
+        speedX1Btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedNorm.png")));
+            }
+        });
         // listen for action
         speedX1Btn.addActionListener(new ActionListener() {
             @Override
@@ -195,7 +249,17 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // inst 2x speed btn
         speedX2Btn = new javax.swing.JButton();
         // set text for clarity
-        speedX2Btn.setText("2X Speed");
+        speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedNorm.png")));
+        speedX2Btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedNorm.png")));
+            }
+        });
         // add action listener
         speedX2Btn.addActionListener(new ActionListener() {
             @Override// override action performed reference plan method
