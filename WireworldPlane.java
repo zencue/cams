@@ -648,11 +648,17 @@ public class WireworldPlane extends Plane {
             k++;
         }
     }
+	/**
+     * Adding s specific number of wires to statistic array
+     * @param int type - type of the array
+     * @param int add - number of wires
+     * 
+     * */
     private void addWireToStatistic(int type,int add) {
-    	for(int i=0;i<statistic.length;i++) {
-    		if(statistic[i][0] == type) {
-    			statistic[i][1] = statistic[i][1]+add;
-    			break;
+    	for(int i=0;i<statistic.length;i++) {//going through entire statistic
+    		if(statistic[i][0] == type) {//if we found this type
+    			statistic[i][1] = statistic[i][1]+add;//adding this number
+    			break;//finishing loop
     		}
     	}
     }
