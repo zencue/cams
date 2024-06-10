@@ -3,15 +3,25 @@ import java.util.ArrayList;
 public class BasicWire extends Wire{
 	private Wire wire;
 	
-	private ArrayList<Electron> newElectrons;
+	private ArrayList<Electron> newElectrons;//array of electrons in the wire
 	
-	private final ArrayList<Integer[]> speeds ;
-	
+	private final ArrayList<Integer[]> speeds ;//directions/speeds which will be used to to put on electrons
+	/**
+     * Constructor of the WireworldPlane class
+     *
+     * @param:int x - x coordinate of the wire
+     * @param:int y - y coordinate of the wire
+     * @param:Cell parent -cell of the wire
+     *
+     *
+     */
 	public BasicWire(int x, int y,Cell parent) {
 		super(x,y,parent,Color.green);
 		
 		wire = this;
 		speeds = new ArrayList<Integer[]>();
+
+		//default speeds
 		speeds.add(new Integer[] {1,0});
 		speeds.add(new Integer[] {-1,0});
 		speeds.add(new Integer[] {0,1});
@@ -110,15 +120,30 @@ public class BasicWire extends Wire{
 		
 
 	}
+	/**
+     *Method which cehcks if there are electrons in the wire
+     * @return: boolean status
+     * 
+     */
 	public boolean doesContainElectrons() {
 		return electrons.size() != 0;
 	}
+	/**
+     *Method which removes electrons from the wire
+     * @return: none
+     * 
+     */
 	public void removeElectrons() {
 		electrons.clear();
 		newElectrons.clear();
 		setBackground(Color.green);
 		
 	}
+	/**
+     *Accessor of the electrons
+     * @return: Electrons electrons - arrayllist of electrons
+     * 
+     */
 	public ArrayList<Electron> getElectrons() {
 		return electrons;
 	}
