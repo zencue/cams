@@ -103,8 +103,8 @@ private String logicWiresEnteredDirection;//variable which detects the direction
                     		int y = cell.getPos()[1];//y of the cell in the map
                     		int type =-1;
                 		//getting type of wire
-                    		if(cell.getElement() instanceof BasicWire) {
-                				type = 1;
+                    		if(cell.getElement() instanceof BasicWire) {//if the element is basicwire
+                				type = 1;//sets right type
                 			}
                 			else if(cell.getElement() instanceof SourceWire) {
                 				type = 2;
@@ -258,7 +258,7 @@ private String logicWiresEnteredDirection;//variable which detects the direction
 			else if(cell.getElement() instanceof LogicWire) {
                     		int direction = ((LogicWire)cell.getElement()).getDirection();
                     		if(direction == 0) {
-                    			logicWiresEnteredDirection = "right";
+                    			logicWiresEnteredDirection = "right";//setting indicator of the direction as the appropariate direction
                     		}
                     		else if(direction == 1) {
                     			logicWiresEnteredDirection = "up";
@@ -335,9 +335,6 @@ private String logicWiresEnteredDirection;//variable which detects the direction
      * Method which updates periodically and is used to update plane
      *
      * @param:Graphics g
-     *
-     *
-     *
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -407,15 +404,16 @@ private String logicWiresEnteredDirection;//variable which detects the direction
      * Accessor of the current wire type
      *
      * @return: int currentWireType
-     *
-     *
-     *
      */
     public static int getCurrentWireType() {
         return currentWireType;
     }
 
-    
+    /**
+     * Method which changes playandpause statuts isStopped
+     *
+     * @return: ActionEvent evt
+     */
     public void playOrPauseWireWorld(java.awt.event.ActionEvent evt){
         isStopped = (!isStopped);
     }
@@ -425,52 +423,102 @@ private String logicWiresEnteredDirection;//variable which detects the direction
     public void setDeleteWire(java.awt.event.ActionEvent evt) {
         currentWireType = 0;
     }
-
+	 /**
+     * Method which sets basicwire as the currentWiretype
+     *
+     * @param:Action event evt
+     */
     public void setBasicWire(java.awt.event.ActionEvent evt) {
         currentWireType = 1;
     }
-
+	/**
+     * Method which sets sourcewire as the currentWiretype
+     *
+     * @param:Action event evt
+     */
     public void setSourceWire(java.awt.event.ActionEvent evt) {
         currentWireType = 2;
     }
-
+/**
+     * Method which sets orwire as the currentWiretype
+     *
+     * @param:Action event evt
+     */
     public void setORWire(java.awt.event.ActionEvent evt) {
         currentWireType = 3;
     }
-
+/**
+     * Method which sets andwire as the currentWiretype
+     *
+     * @param:Action event evt
+     */
     public void setANDWire(java.awt.event.ActionEvent evt) {
         currentWireType = 4;
     }
-
+/**
+     * Method which sets xorwire as the currentWiretype
+     *
+     * @param:Action event evt
+     */
     public void setXORWire(java.awt.event.ActionEvent evt) {
         currentWireType = 5;
     }
+	/**
+     * Method which adds electron in the global electrons arrayList
+     *
+     * @param:Electron electron
+     */
     public static void addElectron(Electron electron) {
         electrons.add(electron);
     }
-
+/**
+     * Method which removes electron from the global electrons arrayList
+     *
+     * @param:Electron electron
+     */
     public static void removeElectron(Electron electron) {
         electrons.remove(electron);
     }
-
+	/**
+     * Method which adds source in the global sources arrayList
+     *
+     * @param:SourceWire source
+     */
     public static void addSource(SourceWire source) {
         sources.add(source);
     }
-
+	/**
+     * Method which removes source in the global sources arrayList
+     *
+     * @param:SourceWire source
+     */
     public static void removeSource(SourceWire source) {
         if (sources.indexOf(source) != -1) {
             sources.remove(source);
         }
 
     }
+	/**
+     * Accessor of the direction
+     *
+     * @return int[] speed - direction/speed which is chosen now
+     */
     public int[] getDirection() {
     	return speed;
     }
-
+	/**
+     * Method which adds logicwire in the global logicwires arrayList
+     *
+     * @param:LogicWire logicWire
+     */
     public static void addLogicWire(LogicWire logicWire) {
         logicWires.add(logicWire);
     }
-
+/**
+     * Method which removes logicwire from the global logicwires arrayList
+     *
+     * @param:LogicWire logicWire
+     */
     public static void removeLogicWire(LogicWire logicWire) {
         if (logicWires.indexOf(logicWire) != -1) {
             logicWires.remove(logicWire);
