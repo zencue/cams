@@ -30,28 +30,36 @@ public class BasicWire extends Wire{
 		newElectrons = new ArrayList<Electron>();
 		
 	}
-	
+	/**
+     * Method which adds electron into wire
+     *
+     * @param:Electron electron 
+     * 
+     *
+     *
+     */
 	public void addElectron(Electron electron) {
-		ArrayList<Integer[]> speedsCopy = (ArrayList<Integer[]>)speeds.clone();
+		ArrayList<Integer[]> speedsCopy = (ArrayList<Integer[]>)speeds.clone();//copy of default directions
 		
-		if(newElectrons.size()!=0) {
+		if(newElectrons.size()!=0) {//if this electron is not new
 
-			for(int i = 0;i<electrons.size();i++) {
+			for(int i = 0;i<electrons.size();i++) {//cleaning the global arraylist of electrons
 				WireworldPlane.removeElectron(electrons.get(i));
 			}
-			electrons.clear();
-			boolean status = true;
-			for(int i = 0;i<newElectrons.size();i++) {
-				Electron el = newElectrons.get(i);
-					for(int j =0;j<speedsCopy.size();j++) {
-						if((int)speedsCopy.get(j)[0] == -el.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == -el.getSpeed()[1]) {
-							speedsCopy.remove(j);
+			electrons.clear();//clearing arraylist of electorns of this basiw wrie
+			boolean status = true;//
+			for(int i = 0;i<newElectrons.size();i++) {//going through electrons which were put in this wire
+				Electron el = newElectrons.get(i);//getting electron
+					for(int j =0;j<speedsCopy.size();j++) {//going through all default directions
+						if((int)speedsCopy.get(j)[0] == -el.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == -el.getSpeed()[1]) {//deleting ability for electron to go in the oppositie direction
+							speedsCopy.remove(j);//deleting this direction from defaults
 							
 							j=-1;
 						}
-						else if((int)speedsCopy.get(j)[0] == -electron.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == -electron.getSpeed()[1]) {
-							if((int)speedsCopy.get(j)[0] == el.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == el.getSpeed()[1]) {
-								status = false;
+						else if((int)speedsCopy.get(j)[0] == -electron.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == -electron.getSpeed()[1]) {//checking the same thing but for the electron which were put htis time
+							if((int)speedsCopy.get(j)[0] == el.getSpeed()[0]&&(int)speedsCopy.get(j)[1] == el.getSpeed()[1]) {//if there is electron in the wire which have opposite direction of the electron they will crush and be deleted
+								status = false;//electrons crushed
+								//removing electrons
 								newElectrons.remove(el);
 								WireworldPlane.removeElectron(electron);
 								WireworldPlane.removeElectron(el);
@@ -59,7 +67,7 @@ public class BasicWire extends Wire{
 								i=-1;
 							}
 							
-							speedsCopy.remove(j);
+							speedsCopy.remove(j);//removing this direction
 							
 							j=-1;
 						}
@@ -68,25 +76,26 @@ public class BasicWire extends Wire{
 						
 					}
 			}
-			if(status) {
+			if(status) {//if crushed adding new electron with perpendicular direction
 				electrons.add(electron);
 				newElectrons.add(electron);
 			}
 		}
-		else {
+		else {//otherwise
+			// adding it to electrons arraylists
 			newElectrons.add(electron);
 			electrons.add(electron);
 			
 			
-				int[] prevSpeed = electron.getSpeed();
+				int[] prevSpeed = electron.getSpeed();//getting opposite direction of the electron
 				
-				for(int i =0;i<speedsCopy.size();i++) {
-					if((int)speedsCopy.get(i)[0] == -prevSpeed[0]&&(int)speedsCopy.get(i)[1] == -prevSpeed[1]) {
+				for(int i =0;i<speedsCopy.size();i++) {//going through default ddirections
+					if((int)speedsCopy.get(i)[0] == -prevSpeed[0]&&(int)speedsCopy.get(i)[1] == -prevSpeed[1]) {//deleting opposite directionn
 						speedsCopy.remove(i);
 						
 						i=-1;
 					}
-					else if((int)speedsCopy.get(i)[0] == prevSpeed[0]&&(int)speedsCopy.get(i)[1] == prevSpeed[1]) {
+					else if((int)speedsCopy.get(i)[0] == prevSpeed[0]&&(int)speedsCopy.get(i)[1] == prevSpeed[1]) {//deleting electron's direction
 						speedsCopy.remove(i);
 						i=-1;
 					}
@@ -95,9 +104,9 @@ public class BasicWire extends Wire{
 		
 		
 		
-		for(int i=0;i<speedsCopy.size();i++) {
+		for(int i=0;i<speedsCopy.size();i++) {//going through default directions
 			Integer[] plus = speedsCopy.get(i);
-			if(map[x+plus[0]][y+plus[1]].getElement()==null) {
+			if(map[x+plus[0]][y+plus[1]].getElement()==null) {//checking if the next wire is empty 
 				speedsCopy.remove(i);
 				i-=1;
 			}
@@ -105,12 +114,13 @@ public class BasicWire extends Wire{
 			
 		}
 		
-		for(int i =0;i<speedsCopy.size();i++) {
+		for(int i =0;i<speedsCopy.size();i++) {//going through directions
+			//making new electrons 
 			Electron newElectron = new Electron(this.getX(),this.getY(),new int[] {speedsCopy.get(i)[0],speedsCopy.get(i)[1]});
 			WireworldPlane.addElectron(newElectron);
 			electrons.add(newElectron);
 		}
-		
+		//changing color of the wire to show that it has electrons
 		if(electrons.size()==0) {
 			this.setBackground(Color.green);
 		}
