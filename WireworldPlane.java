@@ -255,6 +255,21 @@ public class WireworldPlane extends Plane {
         	                    
         	                    plane.revalidate();
                     	}
+			else if(cell.getElement() instanceof LogicWire) {
+                    		int direction = ((LogicWire)cell.getElement()).getDirection();
+                    		if(direction == 0) {
+                    			System.out.println("right");
+                    		}
+                    		else if(direction == 1) {
+                    			System.out.println("up");
+                    		}
+                    		else if(direction == 2) {
+                    			System.out.println("left");
+                    		}
+                    		else if(direction == 3) {
+                    			System.out.println("down");
+                    		}
+                    	}
                     	else if(cell.getElement()==null){//if there is no wires in the cell
                     		cell.setBackground(Color.WHITE);
                     	}
