@@ -37,7 +37,7 @@ public class WireworldPlane extends Plane {
     private int generation;//counter of generation
     private int population;//counter of the population
     private int[][]statistic;//statistic of he population
-
+private String logicWiresEnteredDirection;//variable which detects the direction o fthe logic wire wheere the mouse is on
     /**
      * Constructor of the WireworldPlane class
      *
@@ -258,16 +258,19 @@ public class WireworldPlane extends Plane {
 			else if(cell.getElement() instanceof LogicWire) {
                     		int direction = ((LogicWire)cell.getElement()).getDirection();
                     		if(direction == 0) {
-                    			System.out.println("right");
+                    			logicWiresEnteredDirection = "right";
                     		}
                     		else if(direction == 1) {
-                    			System.out.println("up");
+                    			logicWiresEnteredDirection = "up";
                     		}
                     		else if(direction == 2) {
-                    			System.out.println("left");
+                    			logicWiresEnteredDirection = "left";
                     		}
                     		else if(direction == 3) {
-                    			System.out.println("down");
+                    			logicWiresEnteredDirection = "down";
+                    		}
+                    		else {
+                    			logicWiresEnteredDirection = null;
                     		}
                     	}
                     	else if(cell.getElement()==null){//if there is no wires in the cell
@@ -280,6 +283,7 @@ public class WireworldPlane extends Plane {
                     	if(!isPressed && cell.getElement()==null) {//showing which wire would be placed if user clicked on the cell
                     		cell.setBackground(cell.getColor());
                     	}
+			logicWiresEnteredDirection = null;
                     }
                     @Override 
                     public void mouseReleased(MouseEvent e) {
@@ -690,5 +694,43 @@ public class WireworldPlane extends Plane {
     			break;//finishing loop
     		}
     	}
+    }
+	/**
+     * Method which returns the statistic of the grid 
+     * @return String str - appropriate form of the statistic
+     * 
+     * */
+public String toStringStatistic() {
+    	String str = "Generation: "+generation
+    			+"\nPopulation: "+population;//adding population and generation
+    	for(int i =0;i<statistic.length;i++) {//going through statistic array
+    		int type = statistic[i][0];
+		//adding specific wire based on the type in the array
+    		if(type ==1) {
+    			str+="\nBasic Wire: ";
+    		}
+    		else if(type ==2) {
+    			str+="\nSource Wire: ";
+    		}
+    		else if(type ==3) {
+    			str+="\nOR Wire: ";
+    		}
+    		else if(type ==4) {
+    			str+="\nAND Wire: ";
+    		}
+    		else if(type ==5) {
+    			str+="\nXOR Wire: ";
+    		}
+		//adding number next to wire
+    		str+=statistic[i][1];
+    		
+    	}
+    	if(logicWiresEnteredDirection != null) {//if there mouse is on the logic wire
+			str+="\nDirection: "+logicWiresEnteredDirection;
+		}
+    	
+    	
+    	return str;
+    	
     }
 }
