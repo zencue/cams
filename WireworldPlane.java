@@ -458,16 +458,20 @@ public class WireworldPlane extends Plane {
         }
 
     }
+	/**
+     * The method which saves configuration file
+     * @return: none
+     */
     public void saveConfig() {
     	try {
-//    		File config = new File("config.txt");
-//        	boolean status = config.createNewFile();
-        	int[][] numMap = new int[width][height];
+        	int[][] numMap = new int[width][height];// creatin integer array to save the configuration
         	
-        	for(int i =0;i<width;i++) {
+        	for(int i =0;i<width;i++) {//going through map to check each cell
         		for(int j =0;j<height;j++) {
-        			Cell cell = map[i][j];
-        			Element el = cell.getElement();
+        			Cell cell = map[i][j];//taking the cell in specific position
+        			Element el = cell.getElement();//taking the element from the cell
+
+				//checking which instanse it is and based on that it is ggiving speciffic nubertype of the wire
         			if(el instanceof BasicWire) {
         				numMap[i][j] = 1;
         			}
@@ -475,6 +479,7 @@ public class WireworldPlane extends Plane {
         				numMap[i][j] = 2;
         			}
         			else if(el instanceof ORWire) {
+					//getDirection is getting the direction of logic wire based on specefic number
         				numMap[i][j] = 3*10+((LogicWire)el).getDirection();
         			}
         			else if(el instanceof ANDWire) {
@@ -489,47 +494,54 @@ public class WireworldPlane extends Plane {
         		}
         		
         	}
-        	String fileName = "config1";
+        	String fileName = "config1";//creating a default name of the config file
     		
         	
         	int index = 1;
-    		while(Files.exists(Paths.get(fileName+".ser"))) {
+    		while(Files.exists(Paths.get(fileName+".ser"))) {//checking if this name already exists
     			
-        		index+=1;
-        		fileName = fileName.substring(0,6)+Integer.toString(index);
+        		index+=1;//new index
+        		fileName = fileName.substring(0,6)+Integer.toString(index);//new name with new index
     		}
     		
-    		ObjectOutputStream out = new ObjectOutputStream(
+    		ObjectOutputStream out = new ObjectOutputStream(//creating serialization of the config 
         		    new FileOutputStream(fileName+".ser")
         		);
-        	out.writeObject(numMap);
-        	out.flush();
-        	out.close();
+        	out.writeObject(numMap);//writing array there
+        	out.flush();//flushing the stream
+        	out.close();//closing the stream
     	}
     	catch(IOException e){
     		System.out.println(e);
     	}
     }
+	/**
+     * The method which reads the configuration file
+     * @param: String path; - path of the file
+     * @return: none
+     */
     public void readConfig(String path) {
     	try {
     	    
-    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(path));
-    		int[][] array = (int[][]) in.readObject();
-    		in.close();
-    		Cell[][] newMap = new Cell[width][height];
+    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(path));// reading the file
+    		int[][] array = (int[][]) in.readObject();// reading file into int array
+    		in.close();//closing stream
+    		Cell[][] newMap = new Cell[width][height];//new map 
+		//clearing all arraylists with specifi elements
     		sources.clear();
     		electrons.clear();
     		logicWires.clear();
-    		
+    		//going through the config
     		for(int i =0;i<width;i++) {
         		for(int j =0;j<height;j++) {
-        			int type = array[i][j];
-        			Cell cell = map[i][j];
+        			int type = array[i][j];//getting type of the wire
+        			Cell cell = map[i][j];//getting cell 
         			int x = cell.getPos()[0];//x of the cell in the map
-            		int y = cell.getPos()[1];
+            		int y = cell.getPos()[1];//y of the cell in the map
         			Element wire = null;//declaring wire
-        			cell.removeElement();
-        			int[] dir = null;
+        			cell.removeElement();// removing element from there
+        			int[] dir = null;// direction of the wire if wire is logic one
+				//based on last difgit we can determine the direction of the wire
         			if(type>=10) {
         				int dirType = type%10;
         				if(dirType == 0) {
@@ -545,6 +557,8 @@ public class WireworldPlane extends Plane {
         					dir = new int[] {0,-1};
         				}
         			}
+
+				//based on type putting choosing wire
         			if(type == 1) {
         				wire = new BasicWire(x,y,cell);
         			}
@@ -565,12 +579,12 @@ public class WireworldPlane extends Plane {
         				
         			}
         			
-        			cell.addElement(wire);
+        			cell.addElement(wire);//adding wire into cell
         			
         		}
     		}
     		
-    		plane.revalidate();
+    		plane.revalidate();//updating 
     	}
     	catch(Exception e){
     		System.out.println(e);
