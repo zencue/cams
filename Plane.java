@@ -11,20 +11,28 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is super class of Planes for wireworld and gameoflife.
+*/
 public abstract class Plane extends JPanel implements Runnable {
 
-    private JPanel plane;
     
-    protected boolean isStopped;
+    protected boolean isStopped;//indicator of play nd pause
 
-    protected JFrame main;
-    private int width;
-    private int height;
+    protected JFrame main;//main jframe where the instance came from
+    private int width;//width of the grid
+    private int height;//height of the grid
     private Thread animator;
     private int DELAY = 500;
     protected Cell[][] map;
-
+     /**
+     * Constructor of the Plane
+     * @param: int width - width of the grid
+     *@param: int height - height of the grid
+     *@param: Cell[][] map - array of the cells which represents the map/grid
+      *@param: JFrame main- main jframe where the instance came from
+     */
     public Plane(int width, int height, Cell[][] map, JFrame main) {
         super();
         this.main = main;
@@ -34,7 +42,10 @@ public abstract class Plane extends JPanel implements Runnable {
         this.isStopped = false;
 
     }
-
+     /**
+     * Accessor of the main
+     * @return: JFrame main
+     */
     public JFrame getMain() {
         return main;
     }
