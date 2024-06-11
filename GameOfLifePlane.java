@@ -1,10 +1,10 @@
 /*
-
  */
 package cams;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -172,7 +174,7 @@ public class GameOfLifePlane extends Plane {
                         // if not dont add it
                     }
                     if(el.getAlive() == true && el.checkAlive() == false){
-                        ((GameOfLifeElement)el).parent.setBackground(Color.blue);
+                        ((GameOfLifeElement)el).parent.setBackground(new Color(173,216,230));
                         deaths++;
                     }
                     if(el.getAlive() == false && el.checkAlive() == true){
@@ -187,8 +189,11 @@ public class GameOfLifePlane extends Plane {
                 }
             }
             CAMS_GameOfLife.numDeaths.setText("Deaths: " + deaths);
+            CAMS_GameOfLife.numDeaths.setFont(new Font("Monospaced", Font.BOLD, 12));
             CAMS_GameOfLife.numBirths.setText("Births: " + births);
+            CAMS_GameOfLife.numBirths.setFont(new Font("Monospaced", Font.BOLD, 12));
             CAMS_GameOfLife.numAlive.setText("Number Alive: " + alive);
+            CAMS_GameOfLife.numAlive.setFont(new Font("Monospaced", Font.BOLD, 12));
         }
         
         
@@ -213,14 +218,23 @@ public class GameOfLifePlane extends Plane {
                         numMap[i][j] = 0;
                     }
 
-                }
-                ObjectOutputStream out = new ObjectOutputStream(
-                        new FileOutputStream("config.ser")
+                } 
+            }
+            String fileName = "config1";//creating a default name of the config file
+    		
+        	
+        	int index = 1;
+    		while(Files.exists(Paths.get(fileName+".ser"))) {//checking if this name already exists
+    			
+        		index+=1;//new index
+        		fileName = fileName.substring(0,6)+Integer.toString(index);//new name with new index
+    		}
+            ObjectOutputStream out = new ObjectOutputStream(
+                        new FileOutputStream(fileName + ".ser")
                 );
                 out.writeObject(numMap);
                 out.flush();
                 out.close();
-            }
         } catch (IOException e) {
             System.out.println(e);
         }
