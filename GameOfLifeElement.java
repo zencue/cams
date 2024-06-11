@@ -1,6 +1,12 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+Dawson, Janura, Fedor
+June 11, 2024
+This class is all about the game of life elements. A game of life element
+is an element that exists on a cell in a map on a plane in game of life.
+A game of life element has a parent cell, a boolean status whether its alive
+or dead, an x and y position relative to it's plane, a GameOfLifePlane it 
+resides on, and an array list of neighbours that determine if it should
+be alive. A game of life element will change colour based on how alive it is
  */
 package cams;
 
@@ -8,11 +14,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author darek1849
  */
 public class GameOfLifeElement extends Element{
-    private Cell parent;
+    // GOLElements will have a parent cell, alive or dead, xy coords,
+    // a plane its on, and an array list of neighbours
+    public Cell parent;
     private boolean alive;
     private int x;
     private int y;
@@ -21,15 +29,23 @@ public class GameOfLifeElement extends Element{
     private ArrayList<Integer> neighbours = new ArrayList<Integer>();
     
     
-    
+    /**
+     * This constructor creates a game of life element
+     * @param xPos an integer x position
+     * @param yPos a y position
+     * @param plane the plane this element is on
+     * @param parent the cell this element is in
+     * @param isAlive whether its alive or not
+     */
     public GameOfLifeElement(int xPos, int yPos, GameOfLifePlane plane, Cell parent,boolean isAlive){
-        
         this.parent = parent;
-        
         this.x = xPos;
         this.y = yPos;
         this.plane = plane;
-        // add if x+1 x-1 y+1 or y-1 is out of bounds dont add that neighbour
+        //because some cells on the plane (like the corners) will only have
+        // 3 neighbours (the rest will be out of bounds) there are a series of
+        // error checks to determine if a neighbour should be added to an
+        // elements list of neighbours
         if(y+1 >= 100){
             
         }else{
@@ -78,13 +94,15 @@ public class GameOfLifeElement extends Element{
         neighbours.add((this.x)-1);
         neighbours.add((this.y)+1);
         }
+        // determine if cell currently is alive or not
         this.alive = isAlive;
+        // if it is, make it black
         if(isAlive){
         parent.setBackground(Color.black);
+        // if not, set white
         }else{
             parent.setBackground(Color.white);
         }
-        
     }
     
    
@@ -107,8 +125,7 @@ public class GameOfLifeElement extends Element{
                 if(neighbour.getElement() == null || ((GameOfLifeElement)(neighbour.getElement())).getAlive() == false){
            
                 }else{// the cell is alive therefore the cell we are referencing
-                    // has antoher alive neighbour so we update that.
-
+                    // has another alive neighbour so we update that.
                     numAliveNbs+=1;
 
                 }
@@ -135,7 +152,7 @@ public class GameOfLifeElement extends Element{
         }
     }
     /**
-     * This method just accesses an elements alive status
+     * This method just accesses an element's alive status
      * @return a boolean true or false regarding if the cell is alive
      */
     public boolean getAlive(){
