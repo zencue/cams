@@ -23,7 +23,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a main class of the whole WireWorld plane where grid is placed, wie can be put, etc.
+*/
 public class WireworldPlane extends Plane {
 
     private static ArrayList<Electron> electrons;//array of the all electrons in the plane
