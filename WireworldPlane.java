@@ -33,7 +33,7 @@ public class WireworldPlane extends Plane {
     private static ArrayList<SourceWire> sources;//array of the all sources in the plane
     private static ArrayList<LogicWire> logicWires;//array of the all logicWires in the plane
     private static int currentWireType;//the index of the type of the wire, to indicate whic hwire user wnat to use
-    private JPanel plane;
+    private JPanel plane;//JPanel where grid is placed
     private int[] speed;//direction, which user chose to put logci wires
     private boolean isPressed;// variable which check if mouse is pressed
     private boolean isStopped;//variable which checks if program is stopped
