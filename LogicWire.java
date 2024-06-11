@@ -48,7 +48,7 @@ public abstract class LogicWire extends Wire{
 		return false;
 	}
 	/**
-     * Condition of the logicwire
+     * Condition of the specific type of logicwire
      *
      * @return boolean status
      */
