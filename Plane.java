@@ -87,7 +87,10 @@ public abstract class Plane extends JPanel implements Runnable {
         // delay is 1/4 of og delay
         DELAY = 125;
     }
-
+    /**
+	 * Method which creates the peer of the canvas. This peer allows you to change the user interface of the canvas without changing its functionality.
+	 * @return: none
+	 */
     @Override
     public void addNotify() {
         super.addNotify();
@@ -95,30 +98,33 @@ public abstract class Plane extends JPanel implements Runnable {
         animator = new Thread(this);
         animator.start();
     }
-
+    
     @Override
     public void run() {
 
-        long beforeTime, timeDiff, sleep;
-        beforeTime = System.currentTimeMillis();
-        while (true) {
-
-                main.repaint();
-                timeDiff = System.currentTimeMillis() - beforeTime;
-                sleep = DELAY - timeDiff;
-                if (sleep < 0) {
-                    sleep = 2;
-                }
+        long beforeTime,timeDiff,sleep;//declaring all necessary methods
+		beforeTime = System.currentTimeMillis();//saving current time
+        while(true) {//Infinite loop
+			main.repaint();//repainting main JFrame
+                timeDiff = System.currentTimeMillis() - beforeTime;//calculating time difference between before time and current one
+			sleep = DELAY - timeDiff;//setting sleep value based on difference between delay and timedifference
+                if(sleep<0) {//setting minimum sleep value
+				sleep = 2;
+			}
                 try {
-                    Thread.sleep(sleep);
-                } catch (Exception e) {
-
-                }
-                beforeTime = System.currentTimeMillis();
+				Thread.sleep(sleep);//sleeping the loop for sleep's value
+			}
+			catch(Exception e) {
+				
+			}
+			beforeTime = System.currentTimeMillis();//resaving current time
             
         }
     }
-
+    /**
+	 * Accessor of the array of cell instances
+	 * @return: Cell[][] map - array of the cells
+	 */
     public Cell[][] getMap() {
         return map;
     }
