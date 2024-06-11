@@ -1,6 +1,12 @@
 /*
 Dawson Fedor Janura
+June 11, 2024
 Game of Life frame
+This frame will pop up when the user selects 'Game Of Life'
+and allows them to play Conways game of life and see how
+different cell patterns will interact. The user can pause, play,
+speed up, and slow down the cells as well as save and load any number
+of their simulated games.
  */
 package cams;
 
@@ -38,12 +44,19 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     private JPanel plane;
     // make a 2d arrray of cells to hold every element on plane
     public Cell[][] map;
-
+    /**
+     * Throws IOException. It is a construtor that constructs
+     * all necessary components for this frame to run
+     * @param m the mainframe this fram hails from
+     * @throws IOException any exceptions that can't run
+     */
     public CAMS_GameOfLife(CAMS_Mainframe m) throws IOException {
         initComponents();
         main = m;
 
     }
+    // This is where the audio sound of a button being clicked is
+    // created
     // create a clip to hold the audio
     Clip clip;
     // inst new audio input stream
@@ -82,88 +95,119 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     private void initComponents() throws IOException {
         // map is 100x100
         map = new Cell[100][100];
-        
+        // when exit button is clicked, this frame will close
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // make the JPanel a game of life plane with width and height dependent
         // on the map of cells, references the 2d array of cells, references
         // this as the main frame
         plane = new GameOfLifePlane(map.length, map[0].length, map, this);
-        //need to add toolbar to game of life as well, will implement later today
-        //does not work properly
+        // Add a jToolbar which will hold all the user's buttons
+        // as well as display the number of alive cells, deaths, and 
+        // births as Game Of Life goes on
         JToolBar toolbar = new JToolBar();
+        toolbar.setBackground(new Color(173, 216, 230));
+        // read image file into play and pause icon
+        BufferedImage playAndPauseIcon = ImageIO.read(new File("src/cams/PlayAndPause.png"));
+        // set size and scale appropriate to button
+        Image playAndPauseImage = playAndPauseIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        // instantiate all our labels to display information
         numBirths = new javax.swing.JLabel();
         numDeaths = new javax.swing.JLabel();
         numAlive = new javax.swing.JLabel();
+        // instantiate all buttons to alter game and save and load
+        halfSpeedBtn = new javax.swing.JButton();
+        speedX1Btn = new javax.swing.JButton();
+        speedX2Btn = new javax.swing.JButton();
+        speedX4Btn = new javax.swing.JButton();
+        playAndPauseBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
+        readBtn = new javax.swing.JButton();
+        golHomeBtn = new javax.swing.JButton();
+        // sets all the buttons icons
         saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveNorm.png")));
+        readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readNorm.png")));
+        golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/homeNorm.png")));
+        playAndPauseBtn.setIcon(new ImageIcon(playAndPauseImage));
+        halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedNorm.png")));
+        speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedNorm.png")));
+        speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedNorm.png")));
+        speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/pixil-frame-0.png")));
+        
+// allows for a change in icon when buttons are pressed
         saveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // make button look depressed
                 saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveDep.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // button pops back up
                 saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/saveNorm.png")));
             }
         });
+        // when button is clicked the game is saved
         saveBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // reference the save method in plane
                 ((GameOfLifePlane)plane).saveConfig();
+                // allows for actions on plane to be recorded
                 plane.requestFocusInWindow();
+                // lets panel record key events that user uses
                 plane.setFocusable(true);
             }
         });
-        toolbar.setBackground(new Color(173, 216, 230));
-        readBtn = new javax.swing.JButton();
-        readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readNorm.png")));
+        
+        // adds mouse listener to change read button icon
         readBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // button is depressed
                 readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readDep.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // pops back up
                 readBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/readNorm.png")));
             }
         });
+        // listens for action and adds functionality
         readBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // lets user choose a file to load
                 JFileChooser f = new JFileChooser();
-            	
                 f.showSaveDialog(null);
                 f.setControlButtonsAreShown(true);
+                // once selected that file is read to load saved game
                 ((GameOfLifePlane)plane).readConfig(f.getSelectedFile().getPath());
                 plane.requestFocusInWindow();
                 plane.setFocusable(true);
                 
             }
         });
-        
-        
-        // make a new button for 4x speed
-        speedX4Btn = new javax.swing.JButton();
-        // set text
-        speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/pixil-frame-0.png")));
+        // listens for click to change icon
         speedX4Btn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // button looks like its being pressed
                 speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/4xspeedDepressed.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // pops back up when mouse is released
                 speedX4Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/pixil-frame-0.png")));
             }
         });
         
-        // add action listener
-        
+        // add action listener for functionality
         speedX4Btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
-                // reference the speedX4 event in plane class
+                // reference the speedX4 event in plane class to speed up
+                // GOL
                 ((Plane) plane).speedX4(evt);
                 // play sound
                 try {
@@ -178,17 +222,16 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 }
             }
         });
-        // new button for half speed
-        halfSpeedBtn = new javax.swing.JButton();
-        // add text
-        halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedNorm.png")));
+        // add mouse listener to change icon around mouse behaviour
         halfSpeedBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // mouse pressed, button looks pressed
                 halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedDep.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // mouse released, button pops back up
                 halfSpeedBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/halfspeedNorm.png")));
             }
         });
@@ -212,21 +255,20 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 }
             }
         });
-        // make new button for regular speed
-        speedX1Btn = new javax.swing.JButton();
-        // appropriate text
-        speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedNorm.png")));
+        // listen for mouse action to change how button looks
         speedX1Btn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // mouse pressed, button looks pressed
                 speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedDep.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // mouse released, button appears to pop back up
                 speedX1Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/1xspeedNorm.png")));
             }
         });
-        // listen for action
+        // listen for action to add functionality
         speedX1Btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,24 +288,24 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 }
             }
         });
-        // inst 2x speed btn
-        speedX2Btn = new javax.swing.JButton();
-        // set text for clarity
-        speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedNorm.png")));
+        // listen for buton action to change btn appearance
         speedX2Btn.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                // when mouse is pressed, button looks pressed
                 speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedDep.png")));
             }
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // mouse released, button pops back up
                 speedX2Btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/2xspeedNorm.png")));
             }
         });
-        // add action listener
+        // add action listener for functionality
         speedX2Btn.addActionListener(new ActionListener() {
             @Override// override action performed reference plan method
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // reference 2x speed method in plane, to speed up GOL
                 ((Plane) plane).speedX2(evt);
                 try {
                     // call single audio play
@@ -277,23 +319,24 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 }
             }
         });
-        // make go home button
-        golHomeBtn = new javax.swing.JButton();
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // appropritate text
-        golHomeBtn.setText("HOME");
-        // make play and pause button
-        playAndPauseBtn = new javax.swing.JButton();
-        // read image file into play and pause icon
-        BufferedImage playAndPauseIcon = ImageIO.read(new File("src/cams/PlayAndPause.png"));
-        // set size and scale appropriate to button
-        Image playAndPauseImage = playAndPauseIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        // set play and pause buton icon
-        playAndPauseBtn.setIcon(new ImageIcon(playAndPauseImage));
-        // appropriate text
+        // game of life home button add mouse listener to change button look
+        golHomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                // mouse pressed, button pressed
+                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/homeDep.png")));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                // mouse relased, button pops up
+                golHomeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/homeNorm.png")));
+            }
+        });
+        
+        // appropriate text for pause play button
         playAndPauseBtn.setText("PLAY/PAUSE");
-        // place text in bottom centre of button
+        // place text in bottom centre of button so that it doesnt overlap
+        // with the icon
         playAndPauseBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         playAndPauseBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         // listen for button action
@@ -316,9 +359,7 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
             }
 
         });
-        // add plane
-        add(plane, BorderLayout.CENTER);
-        // home button action listener
+        // action listener for home button functionality
         golHomeBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
             // when pressed the go home action is performed
             golHomeBtnActionPerformed(evt);
@@ -334,7 +375,9 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
                 Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        // add toolbar
+        // add plane to this frame
+        add(plane, BorderLayout.CENTER);
+        // add buttons and seperators to the toolbar
         toolbar.add(golHomeBtn);
         // addd a seperator
         toolbar.addSeparator(new Dimension(50, 50)); //Creates a seperation line between the button and the toolbar
@@ -346,11 +389,8 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         // add 4x and 2x speed button to toolbar
         toolbar.add(speedX4Btn);
         toolbar.add(speedX2Btn);
-
-        // add 1x and halfspeed button to toolbar
         toolbar.add(speedX1Btn);
         toolbar.add(halfSpeedBtn);
-        // alive, births, deaths text fields
         toolbar.addSeparator(new Dimension(25, 50));
         toolbar.add(numAlive);
         toolbar.addSeparator(new Dimension(25, 50));
@@ -361,22 +401,23 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
         toolbar.add(saveBtn);
         toolbar.addSeparator(new Dimension(25, 50));
         toolbar.add(readBtn);
-        
-        
-        
-
-        
+        // make toolbar be at top of page
         add(toolbar, BorderLayout.PAGE_START);
-
+        // makes it work
         pack();
-
+        // sets size of panel
         setSize(1000, 800);
+        // title of panel
         setTitle("GAME OF LIFE");
-
+        // sets the panel to be in middle of screen
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 // send back to first window
-
+    /**
+     * When gol Game OfLife home button is pressed, go back to the main
+     * JFrame
+     * @param evt btn clicked
+     */
     private void golHomeBtnActionPerformed(java.awt.event.ActionEvent evt) {
         main.setVisible(true);
         this.setVisible(false);
@@ -385,15 +426,16 @@ public class CAMS_GameOfLife extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton golHomeBtn;
     private javax.swing.JButton playAndPauseBtn;
-    // Add button allows user to view GOL in 2x speed
+    // Add spped altering buttons
     private javax.swing.JButton speedX2Btn;
-    // add button for normal speed
     private javax.swing.JButton speedX1Btn;
     private javax.swing.JButton halfSpeedBtn;
     private javax.swing.JButton speedX4Btn;
+    // add labels to display cell information
     public static javax.swing.JLabel numAlive;
     public static javax.swing.JLabel numBirths;
     public static javax.swing.JLabel numDeaths;
+    // add save and load game buttons
     private javax.swing.JButton saveBtn;
     private javax.swing.JButton readBtn;
 
