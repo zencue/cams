@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.util.ArrayList;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a superclass of all wires which allows programmer to make code smaller and make new wires easier
+*/
 public abstract class Wire extends Element{
 	protected int x;//x coordinate of the wire
 	protected int y;//y coordinate of the wire
