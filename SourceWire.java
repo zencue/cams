@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.util.ArrayList;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a class of SourceWire which allows user to make electrons and use sources to place hem in the grid
+*/
 public class SourceWire extends Wire{
 	
 	
