@@ -1,4 +1,7 @@
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a class of Electron which is used as the electron and can "go" through wires.
+*/
 public class Electron {
 	private int x;//the x position of the electron
 	private int y;//the y position of the electron
