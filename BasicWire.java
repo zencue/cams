@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * This is a class of BasicWire which transports electron through the greed and also allow to split an electron if there are forks.
 */
 public class BasicWire extends Wire{
-	private Wire wire;
+	
 	
 	private ArrayList<Electron> newElectrons;//array of electrons in the wire
 	
@@ -21,8 +21,6 @@ public class BasicWire extends Wire{
      */
 	public BasicWire(int x, int y,Cell parent) {
 		super(x,y,parent,Color.green);
-		
-		wire = this;
 		speeds = new ArrayList<Integer[]>();
 
 		//default speeds
