@@ -11,7 +11,7 @@ public class XORWire extends LogicWire{
 	*/
 	public XORWire(int x, int y, Cell parent, int[] direction) {
 		super(x, y, parent, Color.MAGENTA, direction);
-		// TODO Auto-generated constructor stub
+		
 	}
 	/* Methods which checks "logical" condition for specific type of the logic wire
 	 * @return: boolean status- logical checking
