@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.util.ArrayList;
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a class of BasicWire which transports electron through the greed and also allow to split an electron if there are forks.
+*/
 public class BasicWire extends Wire{
 	private Wire wire;
 	
