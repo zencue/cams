@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 /* Janura,Fedor and Dawson
  * 6/11/2024
- * This is a class of OR Wire which allows user to put logic or operand in the plane 
+ * This is a class of OR logci wire. It extends the logic wires and inherits all neccassary logic wires methods.
 */
 public class ORWire extends LogicWire{
 	/* Constructor of the ORWIre class
