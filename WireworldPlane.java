@@ -628,7 +628,7 @@ private String logicWiresEnteredDirection;//variable which detects the direction
         				}
         			}
 
-				//based on type putting choosing wire
+				//based on type, putting choosing wire 
         			if(type == 1) {
         				wire = new BasicWire(x,y,cell);
         			}
