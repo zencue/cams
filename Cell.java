@@ -6,7 +6,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.BorderFactory;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a class of the Cell which is placed in the each square in the greed and allows user to put elements in it, such as Wires and GOF elements.
+*/
 public class Cell extends JPanel{
 	
 	private int x,y;//coordinates of the cell
