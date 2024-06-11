@@ -3,7 +3,10 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
+/* Janura,Fedor and Dawson
+ * 6/11/2024
+ * This is a class of LogicWire which is a superclass of ANDWire,OrWire and XORWire and has all necessary logic methods, so it is really easy to create new logic wires.
+*/
 public abstract class LogicWire extends Wire{
 	protected int[] direction;//direction of the wire
 	/**
