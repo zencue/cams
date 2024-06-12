@@ -593,25 +593,34 @@ private String logicWiresEnteredDirection;//variable which detects the direction
     public void readConfig(String path) {
     	try {
     	    
-    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(path));// reading the file
-    		int[][] array = (int[][]) in.readObject();// reading file into int array
-    		in.close();//closing stream
-    		Cell[][] newMap = new Cell[width][height];//new map 
-		//clearing all arraylists with specifi elements
+    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(path));
+    		int[][] array = (int[][]) in.readObject();
+    		in.close();
+    		Cell[][] newMap = new Cell[width][height];
     		sources.clear();
     		electrons.clear();
     		logicWires.clear();
-    		//going through the config
+    		population = 0;
+    		generation = 0;
+    		statistic[0][0] = 1;
+            statistic[1][0] = 2;
+            statistic[2][0] = 3;
+            statistic[3][0] = 4;
+            statistic[4][0] = 5;
+            statistic[0][1] = 0;
+            statistic[1][1] = 0;
+            statistic[2][1] = 0;
+            statistic[3][1] = 0;
+            statistic[4][1] = 0;
     		for(int i =0;i<width;i++) {
         		for(int j =0;j<height;j++) {
-        			int type = array[i][j];//getting type of the wire
-        			Cell cell = map[i][j];//getting cell 
+        			int type = array[i][j];
+        			Cell cell = map[i][j];
         			int x = cell.getPos()[0];//x of the cell in the map
-            		int y = cell.getPos()[1];//y of the cell in the map
+            		int y = cell.getPos()[1];
         			Element wire = null;//declaring wire
-        			cell.removeElement();// removing element from there
-        			int[] dir = null;// direction of the wire if wire is logic one
-				//based on last difgit we can determine the direction of the wire
+        			cell.removeElement();
+        			int[] dir = null;
         			if(type>=10) {
         				int dirType = type%10;
         				if(dirType == 0) {
@@ -627,34 +636,37 @@ private String logicWiresEnteredDirection;//variable which detects the direction
         					dir = new int[] {0,-1};
         				}
         			}
-
-				//based on type, putting choosing wire 
         			if(type == 1) {
         				wire = new BasicWire(x,y,cell);
+        				addWireToStatistic(1,1);
         			}
         			else if( type ==2) {
         				wire = new SourceWire(x,y,cell);
+        				addWireToStatistic(2,1);
         				
         			}
         			else if( type/10 ==3) {
         				wire = new ORWire(x,y,cell,dir);
+        				addWireToStatistic(3,1);
         				
         			}
         			else if( type/10 ==4) {
         				wire = new ANDWire(x,y,cell,dir);
+        				addWireToStatistic(4,1);
         				
         			}
         			else if( type/10 ==5) {
         				wire = new XORWire(x,y,cell,dir);
+        				addWireToStatistic(5,1);
         				
         			}
         			
-        			cell.addElement(wire);//adding wire into cell
+        			cell.addElement(wire);
         			
         		}
     		}
     		
-    		plane.revalidate();//updating 
+    		plane.revalidate();
     	}
     	catch(Exception e){
     		System.out.println(e);
