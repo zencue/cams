@@ -568,14 +568,14 @@ private String logicWiresEnteredDirection;//variable which detects the direction
     		
         	
         	int index = 1;
-    		while(Files.exists(Paths.get(fileName+".ser"))) {//checking if this name already exists
+    		while(Files.exists(Paths.get("../"+fileName+".ser"))) {//checking if this name already exists
     			
         		index+=1;//new index
         		fileName = fileName.substring(0,6)+Integer.toString(index);//new name with new index
     		}
     		
     		ObjectOutputStream out = new ObjectOutputStream(//creating serialization of the config 
-        		    new FileOutputStream(fileName+".ser")
+        		    new FileOutputStream("../"+fileName+".ser")
         		);
         	out.writeObject(numMap);//writing array there
         	out.flush();//flushing the stream
