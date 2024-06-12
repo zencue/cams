@@ -210,7 +210,9 @@ public class GameOfLifePlane extends Plane {
 //    		File config = new File("config.txt");
 //        	boolean status = config.createNewFile();
             int[][] numMap = new int[map.length][map[0].length];
-
+//          run through the size of the map adding cells and elements
+            // to those cells. use 1 as a placeholder for live cell,
+            // 0 for a dead one
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map[0].length; j++) {
                     Cell cell = map[i][j];
@@ -250,26 +252,28 @@ public class GameOfLifePlane extends Plane {
             int[][] array = (int[][]) in.readObject();
             in.close();
             Cell[][] newMap = new Cell[map.length][map[0].length];
-
+//            create a new map to clone the saved one onto
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map[0].length; j++) {
                     int type = array[i][j];
-                    Cell cell = map[i][j];
+                    Cell cell = map[i][j]; 
                     int x = cell.getPos()[0];//x of the cell in the map
                     int y = cell.getPos()[1];
-                    Element elementa = null;//declaring wire
-                    cell.removeElement();
+                    Element elementa = null;// make element
+                    cell.removeElement();// remove cell's element to be null
 
-                    if (type == 1) {
+                    if (type == 1) {// if 1 add alive cell
                         elementa = new GameOfLifeElement(i, j, this, cell, true);
-                    } else {
+                    } else {// if 0 add a dead one
                         elementa = new GameOfLifeElement(i, j, this, cell, false);
                     }
+                    // add elementa to the cell and continue
+                    // until new map is same as saved one
                     cell.addElement(elementa);
 
                 }
             }
-
+    // revalidate
             plane.revalidate();
         } catch (Exception e) {
             System.out.println(e);
