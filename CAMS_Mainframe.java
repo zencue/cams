@@ -1,36 +1,78 @@
 /*
  * Dawson, Janura, Fedor
  * May 28, 2024
- * Mainframe class
+ * Mainframe class: Used as the main menu to introduce the user to all of the functions of the program
  */
 package cams;
 
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author darek1849
- */
 public class CAMS_Mainframe extends javax.swing.JFrame {
 
-    // second window of user manual
+    // window of user manual
     private CAMS_UserManual userManual;
-    // second window of wireworld
+    // window of wireworld
     private CAMS_WireWorld wireWorld;
-    // second window of game of life
+    // window of game of life
     private CAMS_GameOfLife gameOfLife;
+    //window of credits
+    private CAMS_Credits credits;
 
     public CAMS_Mainframe() {
         initComponents();
+
+        //creates a custom cursor for the user
         Cursor cursor;
         cursor = Toolkit.getDefaultToolkit().createCustomCursor(new ImageIcon(getClass().getResource("/cams/images/pointer_scifi_b.png")).getImage(), new Point(), "Custom cursor");
         setCursor(cursor);
+
+        //gets custom icon
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/cams/images/icons8-pixel-heart-64.png")));
+
+        //centers the frame 
+        setLocationRelativeTo(null);
+    }
+
+    // This is where the audio sound of a button being clicked is
+    // created
+    // create a clip to hold the audio
+    Clip clip;
+    // inst new audio input stream
+    AudioInputStream audioInputStream;
+    // make file path
+    static String filePath = "src/cams/sound-15.wav";
+
+    // constructor to initialize streams and clip 
+    public void SimpleAudioPlayer()
+            // throw exceptions
+            throws UnsupportedAudioFileException,
+            IOException, LineUnavailableException {
+        // create AudioInputStream object 
+        // get file into audio input stream
+        audioInputStream
+                = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+
+        // create clip reference 
+        clip = AudioSystem.getClip();
+
+        // open audioInputStream to the clip 
+        clip.open(audioInputStream);
+        // loop the clip once so that when SimpleAudioPlayer happens, it is 
+        // played once
+        clip.loop(0);
+
     }
 
     /**
@@ -42,7 +84,7 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        CAMSBackgroundpnl = new javax.swing.JPanel();
         titleLbl = new javax.swing.JLabel();
         GOLbtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -50,18 +92,20 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
         userManbtn = new javax.swing.JButton();
         exitbtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        creditsbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/cams/images/icons8-pixel-heart-64.png")));
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(250, 218, 105));
-        jPanel1.setForeground(new java.awt.Color(204, 204, 0));
+        CAMSBackgroundpnl.setBackground(new java.awt.Color(250, 218, 105));
+        CAMSBackgroundpnl.setForeground(new java.awt.Color(204, 204, 0));
 
         titleLbl.setFont(new java.awt.Font("PT Mono", 1, 36)); // NOI18N
         titleLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLbl.setText("CAMS");
+        titleLbl.setText("C A M S");
 
         GOLbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/gameoflife1.png"))); // NOI18N
         GOLbtn.setToolTipText("");
@@ -82,6 +126,7 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 1, 14)); // NOI18N
         jLabel1.setText("Cellular Automata Model Simulations");
 
         WWbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/wireworld1.png"))); // NOI18N
@@ -134,36 +179,55 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
 
         jLabel2.setText("by: Janura, Fedor, and Dawson");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(123, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(userManbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(exitbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(WWbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(GOLbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(109, 109, 109))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(titleLbl)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        creditsbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/credits1.png"))); // NOI18N
+        creditsbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                creditsbtnMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                creditsbtnMouseReleased(evt);
+            }
+        });
+        creditsbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                creditsbtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout CAMSBackgroundpnlLayout = new javax.swing.GroupLayout(CAMSBackgroundpnl);
+        CAMSBackgroundpnl.setLayout(CAMSBackgroundpnlLayout);
+        CAMSBackgroundpnlLayout.setHorizontalGroup(
+            CAMSBackgroundpnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CAMSBackgroundpnlLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(CAMSBackgroundpnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(WWbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(GOLbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userManbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(creditsbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(exitbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(142, 142, 142))
+            .addGroup(CAMSBackgroundpnlLayout.createSequentialGroup()
+                .addGroup(CAMSBackgroundpnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CAMSBackgroundpnlLayout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(jLabel1))
+                    .addGroup(CAMSBackgroundpnlLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(titleLbl)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        CAMSBackgroundpnlLayout.setVerticalGroup(
+            CAMSBackgroundpnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CAMSBackgroundpnlLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(titleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GOLbtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(WWbtn)
@@ -171,7 +235,9 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
                 .addComponent(userManbtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(exitbtn)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(creditsbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -180,14 +246,14 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(CAMSBackgroundpnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CAMSBackgroundpnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -195,19 +261,45 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void exitbtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        //indicates that user has pressed the button with an audible cue
+        //play sound
+        try {
+            // call single audio play
+            SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.exit(0);
     }                                       
 
     private void exitbtnMouseReleased(java.awt.event.MouseEvent evt) {                                      
+        //changes to the original button (not pressed anymore)
         exitbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/exit1.png"))); // NOI18N
     }                                     
 
     private void exitbtnMousePressed(java.awt.event.MouseEvent evt) {                                     
+        //changes to a pressed button 
         exitbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/exit2.png"))); // NOI18N
     }                                    
 
     private void userManbtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // check if second window has been created
+//indicates that user has pressed the button with an audible cue
+        //play sound
+        try {
+            // call single audio play
+            SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        }
+// check if second window has been created
         if (userManual == null) {
             userManual = new CAMS_UserManual(this);
         }
@@ -218,14 +310,28 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     }                                          
 
     private void userManbtnMouseReleased(java.awt.event.MouseEvent evt) {                                         
+        //changes button image to unpressed user manual button
         userManbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/usermanual1.png"))); // NOI18N
     }                                        
 
     private void userManbtnMousePressed(java.awt.event.MouseEvent evt) {                                        
+        //changes button image pressed user manual button
         userManbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/usermanual2.png"))); // NOI18N
     }                                       
 
     private void WWbtnActionPerformed(java.awt.event.ActionEvent evt) {                                      
+        //indicates that user has pressed the button with an audible cue
+        //play sound
+        try {
+            // call single audio play
+            SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // check if second window has been created
         if (wireWorld == null) {
             try {
@@ -241,15 +347,28 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     }                                     
 
     private void WWbtnMouseReleased(java.awt.event.MouseEvent evt) {                                    
+        //changes button to the original wire world button
         WWbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/wireworld1.png"))); // NOI18N
     }                                   
 
     private void WWbtnMousePressed(java.awt.event.MouseEvent evt) {                                   
+        //changes to a pressed version of the original wire world button
         WWbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/wireworld2.png"))); // NOI18N
     }                                  
 
     private void GOLbtnActionPerformed(java.awt.event.ActionEvent evt) {                                       
-
+//indicates that user has pressed the button with an audible cue
+        //play sound
+        try {
+            // call single audio play
+            SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // check if second window has been created
 
         if (gameOfLife == null) {
@@ -268,12 +387,47 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     }                                      
 
     private void GOLbtnMouseReleased(java.awt.event.MouseEvent evt) {                                     
+        //changes back to the original game of life button
         GOLbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/gameoflife1.png"))); // NOI18N
     }                                    
 
     private void GOLbtnMousePressed(java.awt.event.MouseEvent evt) {                                    
+        //changes to a pressed version of the game of life button
         GOLbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/gameoflife2.png"))); // NOI18N
     }                                   
+
+    private void creditsbtnActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        //indicates that user has pressed the button with an audible cue
+        //play sound
+        try {
+            // call single audio play
+            SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(CAMS_GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // check if second window has been created
+        if (credits == null) {
+            credits = new CAMS_Credits(this);
+        }
+        // set the other window to be visible
+        credits.setVisible(true);
+        // hide original window
+        this.setVisible(false);
+    }                                          
+
+    private void creditsbtnMousePressed(java.awt.event.MouseEvent evt) {                                        
+        //changes back to the original credits button
+        creditsbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/credits2.png")));
+    }                                       
+
+    private void creditsbtnMouseReleased(java.awt.event.MouseEvent evt) {                                         
+        //changes to a pressed version of the credits button
+        creditsbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cams/images/credits1.png")));
+    }                                        
 
     /**
      * @param args the command line arguments
@@ -309,14 +463,14 @@ public class CAMS_Mainframe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
+    private javax.swing.JPanel CAMSBackgroundpnl;
     private javax.swing.JButton GOLbtn;
     private javax.swing.JButton WWbtn;
+    private javax.swing.JButton creditsbtn;
     private javax.swing.JButton exitbtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JButton userManbtn;
     // End of variables declaration                   
 }
-
