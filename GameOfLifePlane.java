@@ -188,6 +188,9 @@ public class GameOfLifePlane extends Plane {
                     this.map[i][j].addElement(newMap[i][j].getElement());
                 }
             }
+            // Every time screen is updated, also update the number of deaths, births
+            // and number of alive cells as well as set font for labels
+            // to be more on theme
             CAMS_GameOfLife.numDeaths.setText("Deaths: " + deaths);
             CAMS_GameOfLife.numDeaths.setFont(new Font("Monospaced", Font.BOLD, 12));
             CAMS_GameOfLife.numBirths.setText("Births: " + births);
