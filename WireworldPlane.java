@@ -532,16 +532,14 @@ private String logicWiresEnteredDirection;//variable which detects the direction
      * The method which saves configuration file
      * @return: none
      */
-    public void saveConfig() {
+    public void saveConfig(String path) {
     	try {
-        	int[][] numMap = new int[width][height];// creatin integer array to save the configuration
+        	int[][] numMap = new int[width][height];
         	
-        	for(int i =0;i<width;i++) {//going through map to check each cell
+        	for(int i =0;i<width;i++) {
         		for(int j =0;j<height;j++) {
-        			Cell cell = map[i][j];//taking the cell in specific position
-        			Element el = cell.getElement();//taking the element from the cell
-
-				//checking which instanse it is and based on that it is ggiving speciffic nubertype of the wire
+        			Cell cell = map[i][j];
+        			Element el = cell.getElement();
         			if(el instanceof BasicWire) {
         				numMap[i][j] = 1;
         			}
@@ -549,7 +547,6 @@ private String logicWiresEnteredDirection;//variable which detects the direction
         				numMap[i][j] = 2;
         			}
         			else if(el instanceof ORWire) {
-					//getDirection is getting the direction of logic wire based on specefic number
         				numMap[i][j] = 3*10+((LogicWire)el).getDirection();
         			}
         			else if(el instanceof ANDWire) {
@@ -564,22 +561,22 @@ private String logicWiresEnteredDirection;//variable which detects the direction
         		}
         		
         	}
-        	String fileName = "config1";//creating a default name of the config file
+        	String fileName = "config1";
     		
         	
         	int index = 1;
-    		while(Files.exists(Paths.get("../"+fileName+".ser"))) {//checking if this name already exists
+    		while(Files.exists(Paths.get(path+"//"+fileName+".ser"))) {
     			
-        		index+=1;//new index
-        		fileName = fileName.substring(0,6)+Integer.toString(index);//new name with new index
+        		index+=1;
+        		fileName = fileName.substring(0,6)+Integer.toString(index);
     		}
     		
-    		ObjectOutputStream out = new ObjectOutputStream(//creating serialization of the config 
-        		    new FileOutputStream("../"+fileName+".ser")
+    		ObjectOutputStream out = new ObjectOutputStream(
+        		    new FileOutputStream(path+"//"+fileName+".ser")
         		);
-        	out.writeObject(numMap);//writing array there
-        	out.flush();//flushing the stream
-        	out.close();//closing the stream
+        	out.writeObject(numMap);
+        	out.flush();
+        	out.close();
     	}
     	catch(IOException e){
     		System.out.println(e);
