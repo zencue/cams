@@ -144,8 +144,14 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	
-                ((WireworldPlane)plane).saveConfig();
+            	JFileChooser f = new JFileChooser();
+            	f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                f.showSaveDialog(null);
+                f.setControlButtonsAreShown(true);
+                File f1 = f.getCurrentDirectory();
+                String path = f1.getAbsolutePath()+"//"+f1.getName();
+                
+                ((WireworldPlane)plane).saveConfig(path);
                 plane.requestFocusInWindow();
                 plane.setFocusable(true);
             }
@@ -158,7 +164,8 @@ public class CAMS_WireWorld extends javax.swing.JFrame {
             	
                 f.showSaveDialog(null);
                 f.setControlButtonsAreShown(true);
-                ((WireworldPlane)plane).readConfig(f.getSelectedFile().getPath());
+                f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                ((WireworldPlane)plane).readConfig(f.getSelectedFile().getAbsolutePath());
                 plane.requestFocusInWindow();
                 plane.setFocusable(true);
             }
