@@ -18,11 +18,11 @@ import javax.swing.JPanel;
 public abstract class Plane extends JPanel implements Runnable {
 
     
-    protected boolean isStopped;//indicator of play nd pause
+    protected static boolean isStopped;//indicator of play nd pause
 
     protected JFrame main;//main jframe where the instance came from
-    private int width;//width of the grid
-    private int height;//height of the grid
+    public int width;//width of the grid
+    public int height;//height of the grid
     private Thread animator;
     private int DELAY = 500;
     protected Cell[][] map;
